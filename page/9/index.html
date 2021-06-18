@@ -156,58 +156,263 @@
             
 
   
-    <article id="post-module-exports-node" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-mongodb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/29/module-exports-node/">module-exports-node</a>
+      <a class="article-title" href="/2021/05/31/mongodb/">mongodb</a>
     </h1>
   
 
         
-        <a href="/2021/05/29/module-exports-node/" class="archive-article-date">
-  	<time datetime="2021-05-29T06:58:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
+        <a href="/2021/05/31/mongodb/" class="archive-article-date">
+  	<time datetime="2021-05-31T12:18:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="nodejs-模块中的exports">nodejs 模块中的exports</span></h1><h2><span id="用exports导出一个模块以便在其他需要的模块中使用">用exports导出一个模块以便在其他需要的模块中使用</span></h2><ul>
-<li>foo.js中<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules foo.js </span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过exports 暴露一个属性或方法</span></span><br><span class="line"><span class="built_in">exports</span>.add = add;</span><br></pre></td></tr></table></figure></li>
-<li>在main.js中使用foo.js中的属性或方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules main.js</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="built_in">require</span>(<span class="string">&#x27;./foo&#x27;</span>);</span><br><span class="line"><span class="comment">// 没有暴露的部分打印为undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.foo);<span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.add(<span class="number">1</span>,<span class="number">2</span>));<span class="comment">//3</span></span><br></pre></td></tr></table></figure></li>
-<li>不能使用这种方式暴露<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span> = add;</span><br></pre></td></tr></table></figure></li>
-<li>给module.exports赋值的方式来直接暴露某一个属性或方法，而非挂载的方式<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.expprts = add;</span><br></pre></td></tr></table></figure>
-<h2><span id="require加载"><strong>require加载</strong></span></h2></li>
-<li><strong>语法：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 自定义名称 = <span class="built_in">require</span>(<span class="string">&#x27;模块&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-<li><strong>作用：</strong><ol>
-<li>执行被加载模块中的代码</li>
-<li>得到被加载模块中的 <strong>exports导出接口对象</strong><h2><span id="exports导出">exports导出</span></h2></li>
-</ol>
+        <!-- toc -->
+
+<ul>
+<li><a href="#mongodb">MongoDB</a><ul>
+<li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E5%92%8C%E5%85%B3%E9%97%AD%E6%95%B0%E6%8D%AE%E5%BA%93">启动和关闭数据库</a></li>
+<li><a href="#%E9%93%BE%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93">链接数据库</a></li>
+<li><a href="#%E5%B0%86mongodb%E8%AE%BE%E7%BD%AE%E4%B8%BA%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%E5%8F%82%E8%80%83%E8%8F%9C%E9%B8%9F%E6%95%99%E7%A8%8B">将MongoDB设置为系统服务(参考菜鸟教程)</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4">基本命令</a></li>
+<li><a href="#crud%E6%93%8D%E4%BD%9C"><em><strong>CRUD操作：</strong></em></a></li>
+<li><a href="#c-%E6%96%B0%E5%A2%9E%E6%8F%92%E5%85%A5"><strong>#C 新增(插入)</strong></a></li>
+<li><a href="#r-%E6%9F%A5%E8%AF%A2"><strong>#R 查询</strong></a></li>
+<li><a href="#u-%E6%9B%B4%E6%96%B0%E4%BF%AE%E6%94%B9"><strong>#U 更新（修改）</strong></a></li>
+<li><a href="#d-%E5%88%A0%E9%99%A4"><strong>#D 删除</strong></a></li>
+<li><a href="#%E6%8E%92%E5%BA%8F"><strong>排序</strong></a></li>
+<li><a href="#%E5%88%86%E9%A1%B5"><strong>分页</strong></a></li>
+<li><a href="#%E8%81%9A%E5%90%88%E6%9F%A5%E8%AF%A2"><strong>聚合查询</strong></a></li>
+<li><a href="#%E7%B4%A2%E5%BC%95"><strong>索引</strong></a></li>
+<li><a href="#node-%E4%B8%AD%E6%93%8D%E4%BD%9C-mongodb%E6%95%B0%E6%8D%AE"><strong>node 中操作 MongoDB数据</strong></a></li>
+<li><a href="#%E4%B8%89%E4%B8%AA%E6%A6%82%E5%BF%B5">三个概念</a></li>
+</ul>
 </li>
-<li>node是模块作用域，默认文件中所有的成员只在当前文件模块中有效</li>
-<li>对于希望被其他模块访问的成员，我们需要把这些成员挂载到exports接口对象中 <ol>
-<li>导出单个成员<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;hello word&#x27;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;猪八戒&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">800</span>,</span><br><span class="line">  <span class="attr">add</span>: <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="mongodb">MongoDB</span></h1><h3><span id="简介">简介</span></h3><ul>
+<li>分布式文件存储数据库(文件放到不同服务器，加快访问速度)</li>
+<li>c++语言编写</li>
+<li>数据结构类似于json的bson格式（后期插入修改数据写json)<h3><span id="安装">安装</span></h3></li>
+<li>菜鸟教程说明 <a target="_blank" rel="noopener" href="https://www.runoob.com/mongodb/mongodb-window-install.html">https://www.runoob.com/mongodb/mongodb-window-install.html</a></li>
+<li>安装地址 ww.mongodb.com/download-center/community</li>
+<li>傻瓜式安装 “install mongoDB compass” 不勾选（选了耗时间）</li>
+<li>bin目录添加到Path环境变量中</li>
+<li>cmd <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --version</span><br></pre></td></tr></table></figure>
+<h3><span id="启动和关闭数据库">启动和关闭数据库</span></h3></li>
+<li>启动<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongod 默认执行 mongod命令所处盘符根目录下/data/db作为自己的数据存储目录</span></span><br><span class="line"><span class="comment"># 所以在第一次执行该命令之前先自己手动创建一个 /data/db</span></span><br><span class="line">mongod</span><br></pre></td></tr></table></figure></li>
+<li>修改默认数据存储路径<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath 路径</span><br></pre></td></tr></table></figure></li>
+<li>停止: 在服务控制台 crtl + c 或 直接关闭</li>
+</ul>
+<h3><span id="链接数据库">链接数据库</span></h3><ul>
+<li>命令链接<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认连接本机MongoDB</span></span><br><span class="line">mongo</span><br></pre></td></tr></table></figure></li>
+<li>退出连接<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h3><span id="将mongodb设置为系统服务参考菜鸟教程">将MongoDB设置为系统服务(参考菜鸟教程)</span></h3></li>
+<li>不用每次手动启动</li>
+<li>在之前的data下创建log目录（db同级)</li>
+<li>创建配置文件在MongoDB安装目录与bin同级mongod.cfg文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemLog:</span><br><span class="line">    destination: file</span><br><span class="line">    path: f:\data\<span class="built_in">log</span>\mongod.log</span><br><span class="line">storage:</span><br><span class="line">    dbPath: f:\data\db</span><br></pre></td></tr></table></figure></li>
+<li>运行命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">F:\MongoDB\Server\4.4\bin\mongod.exe --config <span class="string">&quot;F:\MongoDB\Server\4.4\mongod.cfg&quot;</span> --install</span><br></pre></td></tr></table></figure></li>
+<li>启动<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start MongoDB</span><br></pre></td></tr></table></figure></li>
+<li>停止<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net stop MongoDB</span><br></pre></td></tr></table></figure>
+<h3><span id="基本命令">基本命令</span></h3></li>
+</ul>
+<ol>
+<li>show dbs <ul>
+<li>查看所有数据库</li>
+</ul>
+</li>
+<li>db<ul>
+<li>查看当前操作的数据库</li>
+</ul>
+</li>
+<li>use 数据库名<ul>
+<li>MogoDB不用手动创建数据库和集合</li>
+<li>切换到指定数据库（如果没有不会报错，当存入数据时系统会自动新建,隐式创建）</li>
+</ul>
+</li>
+<li>show collections<ul>
+<li>查看集合</li>
+</ul>
+</li>
+<li>db.xreateCollection(‘集合名’)<ul>
+<li>创建集合</li>
+<li>{“ok” : 1}</li>
+</ul>
+</li>
+<li>db.集合名.drop()<ul>
+<li>删除集合</li>
+<li>true</li>
+</ul>
+</li>
+<li>查看集合数据<ul>
+<li>db.集合名.find()</li>
+</ul>
+</li>
+<li>删除数据库<ul>
+<li>use 数据库</li>
+<li>db.dropDatabase() 删除当前数据库<h3><span id="crud操作"><em><strong>CRUD操作：</strong></em></span></h3><h3><span id="c-新增插入"><strong>#C 新增(插入)</strong></span></h3></li>
+</ul>
+</li>
 </ol>
 <ul>
-<li>覆盖<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="comment">//以下会覆盖前面的导出</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;word&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+<li><strong>db.集合名.insert(json数据)</strong></li>
 </ul>
-<ol start="2">
-<li>导出多个成员<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.a = <span class="number">12</span>;</span><br><span class="line"><span class="built_in">exports</span>.b = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">exports</span>.c = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="built_in">exports</span>.d = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hi&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span>.f = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;猪八戒&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">800</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2><span id="理解"><strong>理解</strong></span></h2></li>
+<ol>
+<li>集合存在：直接插入数据</li>
+<li>集合不存在：隐式创建，在插入数据</li>
 </ol>
+<ul>
+<li>MongoDB会给每条数据新增一个全球唯一_id键</li>
+<li>_id由时间戳+机器码+pid+计数器组成</li>
+<li>json数据中新加一个_id键即可覆盖（不推荐）<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 集合名：stu</span></span><br><span class="line">db.stu.insert(&#123;<span class="attr">uname</span>:<span class="string">&quot;Tom&quot;</span>,<span class="attr">age</span>:<span class="number">20</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><strong>插入多条数据</strong><ul>
+<li>插入json数组<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 集合名：stu</span></span><br><span class="line">db.stu.insert([</span><br><span class="line">   &#123;<span class="attr">name</span>:<span class="string">&quot;张三&quot;</span>,<span class="attr">age</span>:<span class="number">20</span>&#125;,</span><br><span class="line">   &#123;<span class="attr">name</span>:<span class="string">&quot;李四&quot;</span>,<span class="attr">age</span>:<span class="number">20</span>&#125;,</span><br><span class="line">   &#123;<span class="attr">name</span>:<span class="string">&quot;王二&quot;</span>,<span class="attr">age</span>:<span class="number">20</span>&#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure></li>
+</ul>
 </li>
-<li>在node中，每个模块内部都有一个module对象，该对象有一个成员叫exports<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">  <span class="attr">exports</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>如果希望导出成员，需要这样操作<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports.add = add;</span><br></pre></td></tr></table></figure></li>
-<li>但是这样做很麻烦，操作太多，在node中，为了方便，在模块中有这样一句代码<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// exports是module.exports 的引用</span></span><br><span class="line"><span class="comment">// 指向同一个内存地址</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">exports</span> = <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure></li>
-<li>exports 是module.exports的一个引用<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.a = <span class="number">123</span>;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">module</span>.exports.a = <span class="number">123</span>;</span><br><span class="line"><span class="comment">// 因为 exports 和 module.exports 指向同一个内存对象</span></span><br></pre></td></tr></table></figure></li>
-<li><strong>但是导出单个对象是不能这么做</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给exports赋值相当于，exports指向了新的的内存地址</span></span><br><span class="line"><span class="comment">// 此时 module.exports 不会受到exports的改变影响</span></span><br><span class="line"><span class="comment">// 所以此次暴露的方法和属性是无效的</span></span><br><span class="line"><span class="built_in">exports</span> = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">123</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 所以暴露单个成员是 只能给 module.exports赋值</span></span><br><span class="line"><span class="comment">// 如下</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">123</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><strong>require得到的是module.exports，而不是exports</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 也就是说模块返回的是module.exports</span></span><br><span class="line"><span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure></li>
+<li><strong>快速插入10条数据</strong><ul>
+<li>mongodb底层使用js实现的支持部分js语法</li>
+<li>for循环<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">10</span>; i++)&#123;</span><br><span class="line">   print(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">1</span>; i&lt;=<span class="number">10</span>; i++)&#123;</span><br><span class="line">   db.stu.insert(&#123;<span class="attr">uname</span>:<span class="string">&quot;a&quot;</span>+i,<span class="attr">some</span>:i&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="r-查询"><strong>#R 查询</strong></span></h3></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>查询所有数据<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find()</span><br></pre></td></tr></table></figure></li>
+<li>只看uname列<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find(&#123;&#125;，&#123;<span class="attr">uname</span>:<span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>只看uname以外的列<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find(&#123;&#125;，&#123;<span class="attr">uname</span>:<span class="number">0</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>查询age=20的数据<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find(&#123;<span class="attr">age</span>:<span class="number">20</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>查询age大于20岁的数据<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find(&#123;<span class="attr">age</span>:&#123;$gt：值&#125;&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>查询 18岁，19岁，20岁 的数据<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find(&#123;<span class="attr">age</span>: &#123;<span class="attr">$in</span>: [<span class="number">18</span>,<span class="number">19</span>,<span class="number">20</span>]&#125;&#125;)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li><strong>运算符</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$gt</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>$gte</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>$lt</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>$lte</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>$ne</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>$in</td>
+<td>in</td>
+</tr>
+<tr>
+<td>nin</td>
+<td>not in</td>
+</tr>
+</tbody></table>
+<h3><span id="u-更新修改"><strong>#U 更新（修改）</strong></span></h3><ul>
+<li>修改器</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修改器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$inc</td>
+<td>增加</td>
+</tr>
+<tr>
+<td>$rename</td>
+<td>重命名列</td>
+</tr>
+<tr>
+<td>$set</td>
+<td>修改列值</td>
+</tr>
+<tr>
+<td>$unset</td>
+<td>删除列</td>
+</tr>
+</tbody></table>
+<ul>
+<li>替换<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将 查询uname=张三的数据条目 替换成 &#123;uname:&quot;麻子&quot;&#125;</span></span><br><span class="line">db.stu.update(&#123;<span class="attr">uname</span>:<span class="string">&quot;张三&quot;</span>&#125;,&#123;<span class="attr">uname</span>:<span class="string">&quot;麻子&quot;</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>修改需要使用修改器<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只更新发现的第一条记录</span></span><br><span class="line">db.stu.update(&#123;<span class="attr">uname</span>:<span class="string">&quot;张三&quot;</span>&#125;,&#123;<span class="attr">$set</span>:&#123;<span class="attr">uname</span>:<span class="string">&quot;麻子&quot;</span>&#125;&#125;)</span><br><span class="line"><span class="comment">// 更新多条</span></span><br><span class="line">db.stu.update(&#123;<span class="attr">uname</span>:<span class="string">&quot;张三&quot;</span>&#125;,&#123;<span class="attr">$set</span>:&#123;<span class="attr">uname</span>:<span class="string">&quot;麻子&quot;</span>&#125;&#125;，&#123;<span class="attr">multi</span>:<span class="literal">true</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>给姓名为张三的数据，age 加 2岁<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 负值为减</span></span><br><span class="line">db.stu.upsate(&#123;<span class="attr">uname</span>:<span class="string">&quot;张三&quot;</span>&#125;,&#123;<span class="attr">$inc</span>:&#123;age：<span class="number">2</span>&#125;&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>多个修改器同时使用<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.stu.update(&#123;<span class="attr">uname</span>: <span class="string">&quot;张三&quot;</span>&#125;,&#123;</span><br><span class="line">   <span class="attr">$inc</span>: &#123;<span class="attr">age</span>: <span class="number">2</span>&#125;,</span><br><span class="line">   <span class="attr">$rename</span>: &#123;<span class="attr">sex</span>: <span class="string">&quot;gender&quot;</span>&#125;,</span><br><span class="line">   <span class="attr">$unset</span>: &#123;<span class="attr">other</span>: <span class="literal">true</span>&#125;</span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure></li>
+<li>第三个参数 (匹配不到时是否新增) 默认为 false</li>
+<li>第四个参数 (是否修改多条数据) 默认为false<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 负值为减</span></span><br><span class="line">db.stu.upsate(&#123;<span class="attr">uname</span>:<span class="string">&quot;张三&quot;</span>&#125;,&#123;<span class="attr">$inc</span>:&#123;age：<span class="number">2</span>&#125;&#125;，<span class="literal">false</span>,<span class="literal">false</span>)</span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
+<li>总结：修改 四个参数<h3><span id="d-删除"><strong>#D 删除</strong></span></h3></li>
+<li>删除文档 remove</li>
+<li>第二个参数：是否只删除一条(默认false,表删除所有)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只删除一条</span></span><br><span class="line">db.stu.remove(&#123;&#125;,<span class="literal">true</span>)</span><br><span class="line"><span class="comment">// 只删除所有</span></span><br><span class="line">db.stu.remove(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<h3><span id="排序"><strong>排序</strong></span></h3></li>
+<li>db.集合名.find().sort(json数据)</li>
+<li>键：需要排序的字段</li>
+<li>值：1表升序/-1表降序<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find().sort(&#123;<span class="attr">age</span>: -<span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h3><span id="分页"><strong>分页</strong></span></h3></li>
+<li>db.集合名.find().sort().skip(数字).limit(数字)</li>
+<li>skip 表跳过指定数量</li>
+<li>limit 表限制查询的数量</li>
+<li>count 统计总数<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.find().sort(&#123;<span class="attr">age</span>:-<span class="number">1</span>&#125;).skip(<span class="number">2</span>).limit(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h3><span id="聚合查询"><strong>聚合查询</strong></span></h3></li>
+<li>语法<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.集合名.aggregate([</span><br><span class="line">   &#123;管道: &#123;表达式&#125;&#125;</span><br><span class="line">   ...</span><br><span class="line">])</span><br></pre></td></tr></table></figure></li>
+<li>常用管道<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$group 将集合中的文档分组</span><br><span class="line">$match 过滤数据，找出符合条件的文档</span><br><span class="line">$sort 聚合数据进一步排序</span><br><span class="line">$skip 跳过指定文档数</span><br><span class="line">$limit 限制聚合返回的文档数</span><br><span class="line">...</span><br></pre></td></tr></table></figure></li>
+<li>常用表达式<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$sum 总和 $sum:<span class="number">1</span> 和 count 表统计</span><br><span class="line">$avg 平均</span><br><span class="line">$min 最小值</span><br><span class="line">$max 最大值</span><br><span class="line">...</span><br></pre></td></tr></table></figure></li>
+<li>统计男生和女生的年龄和<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">db.stu.aggregate([</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="attr">$group</span>:&#123;</span><br><span class="line">         <span class="attr">_id</span>: <span class="string">&quot;$gender&quot;</span>,</span><br><span class="line">         <span class="attr">agesum</span>: &#123;<span class="attr">$sum</span>: <span class="string">&quot;$age&quot;</span>&#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure></li>
+<li>统计男生和女生的总人数<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">db.stu.aggregate([</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="attr">$group</span>:&#123;</span><br><span class="line">         <span class="attr">_id</span>: <span class="string">&quot;$gender&quot;</span>,</span><br><span class="line">         <span class="attr">nums</span>: &#123;<span class="attr">$sum</span>: <span class="number">1</span>&#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure></li>
+<li>求学生总数和平均年龄<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// _id: null 表不分组</span></span><br><span class="line">db.stu.aggregate([</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="attr">$group</span>:&#123;</span><br><span class="line">         <span class="attr">_id</span>: <span class="literal">null</span>,</span><br><span class="line">         <span class="attr">total_nums</span>: &#123;<span class="attr">$sum</span>: <span class="number">1</span>&#125;,</span><br><span class="line">         <span class="attr">total_age_avg</span>:&#123;<span class="attr">$avg</span>:<span class="string">&quot;$age&quot;</span>&#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure></li>
+<li>查询男生、女生人数，按人数升序<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.stu.aggregate([</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="attr">$group</span>: &#123;</span><br><span class="line">         <span class="attr">_id</span>: <span class="string">&quot;$gender&quot;</span>,</span><br><span class="line">         <span class="attr">nums</span>: &#123;<span class="attr">$sum</span>: <span class="number">1</span>&#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="attr">$sort</span>: &#123;</span><br><span class="line">         <span class="attr">nums</span>: <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<h3><span id="索引"><strong>索引</strong></span></h3></li>
+<li>创建普通索引,按升序存储<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.createIndex(&#123;<span class="attr">name</span>:<span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>查看当前索引<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.getIndexes()</span><br></pre></td></tr></table></figure></li>
+<li>删除索引<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.dropIndex(索引名)</span><br></pre></td></tr></table></figure></li>
+<li>给name创建索引，升序存储，并起名uname<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.createIndex(&#123;<span class="attr">name</span>:<span class="number">1</span>&#125;,&#123;<span class="attr">name</span>:<span class="string">&quot;uname&quot;</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>创建组合索引<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stu.createIndex(&#123;<span class="attr">name</span>:<span class="number">1</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure></li>
+<li>创建唯一索引<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.createIndex(&#123;<span class="attr">name</span>:<span class="number">1</span>&#125;,&#123;<span class="attr">unique</span>:<span class="string">&quot;name&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h3><span id="node-中操作-mongodb数据"><strong>node 中操作 MongoDB数据</strong></span></h3></li>
+<li>使用官方的mongodb包来操作</li>
+<li>使用第三方 mongoose 来操作 MongoDB <a target="_blank" rel="noopener" href="https://mongoosejs.com/">https://mongoosejs.com/</a><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&#x27;mongoose&#x27;</span>);</span><br><span class="line">mongoose.connect(<span class="string">&#x27;mongodb://localhost:27017/test&#x27;</span>, &#123;<span class="attr">useNewUrlParser</span>: <span class="literal">true</span>, <span class="attr">useUnifiedTopology</span>: <span class="literal">true</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Cat = mongoose.model(<span class="string">&#x27;Cat&#x27;</span>, &#123; <span class="attr">name</span>: <span class="built_in">String</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> kitty = <span class="keyword">new</span> Cat(&#123; <span class="attr">name</span>: <span class="string">&#x27;Zildjian&#x27;</span> &#125;);</span><br><span class="line">kitty.save().then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;meow&#x27;</span>));</span><br></pre></td></tr></table></figure>
+<h3><span id="三个概念">三个概念</span></h3></li>
+<li>数据库（database）<ul>
+<li>仓库，仓库中可以存放集合</li>
+</ul>
+</li>
+<li>集合（collection）<ul>
+<li>类似于数组，可以存放文档</li>
+</ul>
+</li>
+<li>文档（document）<ul>
+<li>数据库中最小单位，我们存储和操作的内容都是文档</li>
+</ul>
+</li>
 </ul>
 
       
@@ -221,7 +426,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/29/module-exports-node/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/05/31/mongodb/">展开全文 >></a>
         </p>
       
 
@@ -253,7 +458,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -369,6 +574,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">slot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">router</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">路由</a>
               </li>
             
             <div class="clearfix"></div>
