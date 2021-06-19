@@ -156,30 +156,60 @@
             
 
   
-    <article id="post-node-handleStaticResouces" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-module-exports-node" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/28/node-handleStaticResouces/">node-handleStaticResouces</a>
+      <a class="article-title" href="/2021/05/29/module-exports-node/">module-exports-node</a>
     </h1>
   
 
         
-        <a href="/2021/05/28/node-handleStaticResouces/" class="archive-article-date">
-  	<time datetime="2021-05-28T15:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-28</time>
+        <a href="/2021/05/29/module-exports-node/" class="archive-article-date">
+  	<time datetime="2021-05-29T06:58:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="node处理静态资源访问的问题"><strong>node处理静态资源访问的问题</strong></span></h1><h2><span id="统一放入public文件夹中">统一放入public文件夹中</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">|- demo</span><br><span class="line">  |- public</span><br><span class="line">     |- css</span><br><span class="line">     |- image</span><br><span class="line">     |- js</span><br><span class="line">  |- app.js</span><br><span class="line">  |- views</span><br><span class="line">    |- test.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h1><span id="nodejs-模块中的exports">nodejs 模块中的exports</span></h1><h2><span id="用exports导出一个模块以便在其他需要的模块中使用">用exports导出一个模块以便在其他需要的模块中使用</span></h2><ul>
+<li>foo.js中<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules foo.js </span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过exports 暴露一个属性或方法</span></span><br><span class="line"><span class="built_in">exports</span>.add = add;</span><br></pre></td></tr></table></figure></li>
+<li>在main.js中使用foo.js中的属性或方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules main.js</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="built_in">require</span>(<span class="string">&#x27;./foo&#x27;</span>);</span><br><span class="line"><span class="comment">// 没有暴露的部分打印为undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.foo);<span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.add(<span class="number">1</span>,<span class="number">2</span>));<span class="comment">//3</span></span><br></pre></td></tr></table></figure></li>
+<li>不能使用这种方式暴露<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span> = add;</span><br></pre></td></tr></table></figure></li>
+<li>给module.exports赋值的方式来直接暴露某一个属性或方法，而非挂载的方式<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.expprts = add;</span><br></pre></td></tr></table></figure>
+<h2><span id="require加载"><strong>require加载</strong></span></h2></li>
+<li><strong>语法：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 自定义名称 = <span class="built_in">require</span>(<span class="string">&#x27;模块&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><strong>作用：</strong><ol>
+<li>执行被加载模块中的代码</li>
+<li>得到被加载模块中的 <strong>exports导出接口对象</strong><h2><span id="exports导出">exports导出</span></h2></li>
+</ol>
+</li>
+<li>node是模块作用域，默认文件中所有的成员只在当前文件模块中有效</li>
+<li>对于希望被其他模块访问的成员，我们需要把这些成员挂载到exports接口对象中 <ol>
+<li>导出单个成员<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;hello word&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;猪八戒&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">800</span>,</span><br><span class="line">  <span class="attr">add</span>: <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>覆盖<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="comment">//以下会覆盖前面的导出</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;word&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>导出多个成员<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.a = <span class="number">12</span>;</span><br><span class="line"><span class="built_in">exports</span>.b = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">exports</span>.c = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="built_in">exports</span>.d = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hi&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span>.f = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;猪八戒&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">800</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="理解"><strong>理解</strong></span></h2></li>
+</ol>
+</li>
+<li>在node中，每个模块内部都有一个module对象，该对象有一个成员叫exports<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">  <span class="attr">exports</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>如果希望导出成员，需要这样操作<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports.add = add;</span><br></pre></td></tr></table></figure></li>
+<li>但是这样做很麻烦，操作太多，在node中，为了方便，在模块中有这样一句代码<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// exports是module.exports 的引用</span></span><br><span class="line"><span class="comment">// 指向同一个内存地址</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">exports</span> = <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure></li>
+<li>exports 是module.exports的一个引用<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.a = <span class="number">123</span>;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">module</span>.exports.a = <span class="number">123</span>;</span><br><span class="line"><span class="comment">// 因为 exports 和 module.exports 指向同一个内存对象</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>但是导出单个对象是不能这么做</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给exports赋值相当于，exports指向了新的的内存地址</span></span><br><span class="line"><span class="comment">// 此时 module.exports 不会受到exports的改变影响</span></span><br><span class="line"><span class="comment">// 所以此次暴露的方法和属性是无效的</span></span><br><span class="line"><span class="built_in">exports</span> = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">123</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 所以暴露单个成员是 只能给 module.exports赋值</span></span><br><span class="line"><span class="comment">// 如下</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">123</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>require得到的是module.exports，而不是exports</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 也就是说模块返回的是module.exports</span></span><br><span class="line"><span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure></li>
+</ul>
 
-<h2><span id="处理程序">处理程序</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// response.writeHead(200, &#123;&#x27;Content-Type&#x27;: &#x27;text/plain&#x27;&#125;);</span></span><br><span class="line">  <span class="comment">// response.end(&#x27;Hello World&#x27;);</span></span><br><span class="line">  <span class="keyword">var</span> url = request.url;</span><br><span class="line">  <span class="keyword">if</span> (url === <span class="string">&#x27;/&#x27;</span>)&#123;</span><br><span class="line">    fs.readFile(<span class="string">&#x27;./views/test.html&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> response.end(<span class="string">&#x27;404 Not Found&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      response.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span> (url.indexOf(<span class="string">&#x27;/public/&#x27;</span>) === <span class="number">0</span>)&#123;<span class="comment">//在url前面拼接一个点</span></span><br><span class="line">    fs.readFile(<span class="string">&#x27;.&#x27;</span> + url,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> response.end(<span class="string">&#x27;404 Not Found&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      response.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//404处理</span></span><br><span class="line">    fs.readFile(<span class="string">&#x27;./views/404.html&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err)&#123;</span><br><span class="line">        <span class="keyword">return</span> response.end(<span class="string">&#x27;404 Not Found&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      response.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br></pre></td></tr></table></figure>
-<h2><span id="网页中引用静态资源">网页中引用静态资源</span></h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;../public/image/0.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;/public/image/0.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
       
 
       
@@ -187,33 +217,11 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nodejs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/nodejs//" class="article-tag-list-link color2">nodejs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/28/node-handleStaticResouces/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/05/29/module-exports-node/">展开全文 >></a>
         </p>
       
 
@@ -245,7 +253,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/13/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/15/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/13/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/15/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -409,6 +417,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">definedProperty</a>
               </li>
             
             <div class="clearfix"></div>
