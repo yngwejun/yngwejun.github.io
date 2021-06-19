@@ -156,55 +156,42 @@
             
 
   
-    <article id="post-vue编程式导航" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-将伪数组转换成真数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/19/vue%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA/">vue编程式导航</a>
+      <a class="article-title" href="/2021/06/19/%E5%B0%86%E4%BC%AA%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E7%9C%9F%E6%95%B0%E7%BB%84/">将伪数组转换成真数组</a>
     </h1>
   
 
         
-        <a href="/2021/06/19/vue%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA/" class="archive-article-date">
-  	<time datetime="2021-06-19T04:04:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
+        <a href="/2021/06/19/%E5%B0%86%E4%BC%AA%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E7%9C%9F%E6%95%B0%E7%BB%84/" class="archive-article-date">
+  	<time datetime="2021-06-19T05:54:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="vue编程式导航">vue编程式导航</span></h1><h2><span id="一push">一.push</span></h2><p>vue-router  <a target="_blank" rel="noopener" href="https://router.vuejs.org/zh/api/#router-link">https://router.vuejs.org/zh/api/#router-link</a></p>
-<h3><span id="示例1">示例1</span></h3><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">props</span>: <span class="function"><span class="params">route</span> =&gt;</span> route.params,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+        <h2><span id="将具有length属性的对象转换成数组">将具有length属性的对象转换成数组</span></h2><p>例如：html页面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;toMessagePage&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    toMessagePage () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$router.push(&#123;<span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>, <span class="attr">params</span>: &#123;<span class="attr">id</span>: <span class="number">1</span>&#125;&#125;)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> lis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;li&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.params.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = <span class="built_in">Array</span>.prototype.slice.call(lis,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
 
-<h3><span id="示例2">示例2</span></h3><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = <span class="built_in">Array</span>.prototype.slice.call(lis)</span><br></pre></td></tr></table></figure>
 
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;toMessagePage&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    toMessagePage () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$router.push(<span class="string">`/home/message/<span class="subst">$&#123;id&#125;</span>`</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = [].slice.call(lis,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
 
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.params.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = [].slice.call(lis)</span><br></pre></td></tr></table></figure>
 
-<h2><span id="二replace">二.replace</span></h2><p>将【一.示例2，示例2】push换成replace，结果会丢掉历史记录</p>
-<h2><span id="三gobackforward">三.go,back,forward</span></h2><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line">       <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;toMessagePage(1)&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;$router.go(1)&quot;</span>&gt;</span>前进1页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;$router.back()&quot;</span>&gt;</span>后退一页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;$router.forward()&quot;</span>&gt;</span>前进一页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    toMessagePage (id) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$router.push(<span class="string">`/home/message/<span class="subst">$&#123;id&#125;</span>`</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.params.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
+<p>console</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(3) [li, li, li]</span><br><span class="line">0: li</span><br><span class="line">1: li</span><br><span class="line">2: li</span><br><span class="line">length: 3__proto__: Array(0) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
 
       
@@ -217,15 +204,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">router</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数组</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">路由</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
@@ -237,7 +224,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/vue//" class="article-tag-list-link color4">vue</a>
+        			<a href="/categories/js//" class="article-tag-list-link color3">js</a>
         		</li>
       		
 		</ul>
@@ -246,7 +233,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/19/vue%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/19/%E5%B0%86%E4%BC%AA%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E7%9C%9F%E6%95%B0%E7%BB%84/">展开全文 >></a>
         </p>
       
 
@@ -278,7 +265,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -434,6 +421,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数组</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
