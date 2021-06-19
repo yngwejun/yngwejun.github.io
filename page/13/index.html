@@ -156,36 +156,30 @@
             
 
   
-    <article id="post-art-template" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-node-handleStaticResouces" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/28/art-template/">art-template</a>
+      <a class="article-title" href="/2021/05/28/node-handleStaticResouces/">node-handleStaticResouces</a>
     </h1>
   
 
         
-        <a href="/2021/05/28/art-template/" class="archive-article-date">
-  	<time datetime="2021-05-28T15:06:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-28</time>
+        <a href="/2021/05/28/node-handleStaticResouces/" class="archive-article-date">
+  	<time datetime="2021-05-28T15:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2><span id="描述">描述</span></h2><ul>
-<li>js模板引擎</li>
-<li>下载：npm install art-template<h2><span id="在浏览器中使用">在浏览器中使用</span></h2></li>
-<li>引入网页<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;../node_modules/art-template/lib/template-web.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/template&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tp1&quot;</span>&gt;</span><span class="handlebars"><span class="xml"></span></span></span><br><span class="line"><span class="xml"><span class="handlebars">    hello </span><span class="template-variable">&#123;&#123;<span class="name">name</span>&#125;&#125;</span><span class="xml"></span></span></span><br><span class="line"><span class="xml"><span class="handlebars">  </span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> rest = template (<span class="string">&#x27;tp1&#x27;</span>,&#123;</span></span><br><span class="line"><span class="javascript">      <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span></span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(rest)</span></span><br><span class="line"><span class="javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2><span id="在node中使用">在node中使用</span></h2></li>
-<li>安装npm install art-template</li>
-<li>在需要引用的文件中加载，require（’art-template’）</li>
-<li>查文档，使用模板引擎API<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> template = <span class="built_in">require</span> (<span class="string">&#x27;art-template&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
-</ul>
+        <h1><span id="node处理静态资源访问的问题"><strong>node处理静态资源访问的问题</strong></span></h1><h2><span id="统一放入public文件夹中">统一放入public文件夹中</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">|- demo</span><br><span class="line">  |- public</span><br><span class="line">     |- css</span><br><span class="line">     |- image</span><br><span class="line">     |- js</span><br><span class="line">  |- app.js</span><br><span class="line">  |- views</span><br><span class="line">    |- test.html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h2><span id="处理程序">处理程序</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// response.writeHead(200, &#123;&#x27;Content-Type&#x27;: &#x27;text/plain&#x27;&#125;);</span></span><br><span class="line">  <span class="comment">// response.end(&#x27;Hello World&#x27;);</span></span><br><span class="line">  <span class="keyword">var</span> url = request.url;</span><br><span class="line">  <span class="keyword">if</span> (url === <span class="string">&#x27;/&#x27;</span>)&#123;</span><br><span class="line">    fs.readFile(<span class="string">&#x27;./views/test.html&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> response.end(<span class="string">&#x27;404 Not Found&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      response.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span> (url.indexOf(<span class="string">&#x27;/public/&#x27;</span>) === <span class="number">0</span>)&#123;<span class="comment">//在url前面拼接一个点</span></span><br><span class="line">    fs.readFile(<span class="string">&#x27;.&#x27;</span> + url,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> response.end(<span class="string">&#x27;404 Not Found&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      response.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//404处理</span></span><br><span class="line">    fs.readFile(<span class="string">&#x27;./views/404.html&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err)&#123;</span><br><span class="line">        <span class="keyword">return</span> response.end(<span class="string">&#x27;404 Not Found&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      response.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br></pre></td></tr></table></figure>
+<h2><span id="网页中引用静态资源">网页中引用静态资源</span></h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;../public/image/0.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;/public/image/0.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
       
 
       
@@ -197,7 +191,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/28/art-template/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/05/28/node-handleStaticResouces/">展开全文 >></a>
         </p>
       
 
@@ -229,7 +223,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
     </nav>
   
 
