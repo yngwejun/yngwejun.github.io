@@ -156,54 +156,47 @@
             
 
   
-    <article id="post-vue编程式导航" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-defineProperty" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/19/vue%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA/">vue编程式导航</a>
+      <a class="article-title" href="/2021/06/19/defineProperty/">defineProperty</a>
     </h1>
   
 
         
-        <a href="/2021/06/19/vue%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA/" class="archive-article-date">
-  	<time datetime="2021-06-19T04:04:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
+        <a href="/2021/06/19/defineProperty/" class="archive-article-date">
+  	<time datetime="2021-06-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="vue编程式导航">vue编程式导航</span></h1><h2><span id="一push">一.push</span></h2><p>vue-router  <a target="_blank" rel="noopener" href="https://router.vuejs.org/zh/api/#router-link">https://router.vuejs.org/zh/api/#router-link</a></p>
-<h3><span id="示例1">示例1</span></h3><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">props</span>: <span class="function"><span class="params">route</span> =&gt;</span> route.params,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+        <h1><span id="给对象添加属性">给对象添加属性</span></h1><p><code>Object.defineProperty()</code> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。</p>
+<h3><span id="参数">参数</span></h3><ul>
+<li><p><code>obj</code></p>
+<p>要定义属性的对象。</p>
+</li>
+<li><p><code>prop</code></p>
+<p>要定义或修改的属性的名称或<code> symbol</code>。</p>
+</li>
+<li><p><code>descriptor</code></p>
+<p>要定义或修改的属性描述符。</p>
+</li>
+</ul>
+<h3><span id="返回值">返回值</span></h3><p>被传递给函数的对象。</p>
+<h3><span id="描述">描述</span></h3><p><code>configurable</code>是否可以重新定义 默认值：false</p>
+<p><code>enumerable</code>是否可以枚举  默认值：false</p>
+<p><code>value</code>初始值  默认值：undefined</p>
+<p><code>writable</code>是否可以修改属性值  默认值：false</p>
+<p><code>get</code>属性的 <code>getter </code>函数  默认值：undefined</p>
+<p><code>set</code>属性的 s<code>etter </code>函数  默认值：undefined</p>
+<h3><span id="示例">示例</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;age&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;description&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">false</span>,</span><br><span class="line">  get () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name + <span class="string">&#x27;-&#x27;</span> + <span class="built_in">this</span>.age</span><br><span class="line">  &#125;,</span><br><span class="line">  set (value) &#123;</span><br><span class="line">    <span class="keyword">const</span> des = value.split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.name = des[<span class="number">0</span>]</span><br><span class="line">    <span class="built_in">this</span>.age = des[<span class="number">1</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 枚举属性名</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj)) <span class="comment">// [&quot;name&quot;, &quot;age&quot;]</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">// obj Tom 20 Tom-20</span></span><br><span class="line">obj.description = <span class="string">&#x27;Killy-21&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description)<span class="comment">// obj Killy 21 Killy-21</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;damu&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,   <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,  <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">true</span> <span class="comment">//不能重新定义</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">//obj Killy 21 Killy-21</span></span><br></pre></td></tr></table></figure>
 
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;toMessagePage&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    toMessagePage () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$router.push(&#123;<span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>, <span class="attr">params</span>: &#123;<span class="attr">id</span>: <span class="number">1</span>&#125;&#125;)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.params.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3><span id="示例2">示例2</span></h3><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;toMessagePage&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    toMessagePage () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$router.push(<span class="string">`/home/message/<span class="subst">$&#123;id&#125;</span>`</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.params.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2><span id="二replace">二.replace</span></h2><p>将【一.示例2，示例2】push换成replace，结果会丢掉历史记录</p>
-<h2><span id="三gobackforward">三.go,back,forward</span></h2><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line">       <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;toMessagePage(1)&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;$router.go(1)&quot;</span>&gt;</span>前进1页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;$router.back()&quot;</span>&gt;</span>后退一页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;$router.forward()&quot;</span>&gt;</span>前进一页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    toMessagePage (id) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$router.push(<span class="string">`/home/message/<span class="subst">$&#123;id&#125;</span>`</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.params.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
       
 
@@ -217,15 +210,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">router</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">路由</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">definedProperty</a>
         		</li>
       		
 		</ul>
@@ -237,7 +230,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/vue//" class="article-tag-list-link color4">vue</a>
+        			<a href="/categories/js//" class="article-tag-list-link color3">js</a>
         		</li>
       		
 		</ul>
@@ -246,7 +239,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/19/vue%E7%BC%96%E7%A8%8B%E5%BC%8F%E5%AF%BC%E8%88%AA/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/19/defineProperty/">展开全文 >></a>
         </p>
       
 
@@ -278,7 +271,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -454,6 +447,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES8</a>
               </li>
             
             <div class="clearfix"></div>
