@@ -156,152 +156,48 @@
             
 
   
-    <article id="post-vue路由传参" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-defineProperty" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/18/vue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82/">vue路由传参</a>
+      <a class="article-title" href="/2021/06/19/defineProperty/">defineProperty</a>
     </h1>
   
 
         
-        <a href="/2021/06/18/vue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82/" class="archive-article-date">
-  	<time datetime="2021-06-18T12:24:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-18</time>
+        <a href="/2021/06/19/defineProperty/" class="archive-article-date">
+  	<time datetime="2021-06-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <!-- toc -->
-
-<ul>
-<li><a href="#vue-router%E4%BC%A0%E5%8F%82">vue-router传参</a><ul>
-<li><a href="#%E4%B8%80router-link%E7%9A%84props-to">一.router-link的props : to</a><ul>
-<li><a href="#param%E4%BC%A0%E5%8F%82">param传参</a><ul>
-<li><a href="#%E5%86%99%E6%B3%951">写法1</a></li>
-<li><a href="#%E5%86%99%E6%B3%952">写法2</a></li>
-<li><a href="#%E5%86%99%E6%B3%953">写法3</a></li>
-<li><a href="#%E5%86%99%E6%B3%954">写法4</a></li>
-</ul>
+        <h1><span id="给对象添加属性">给对象添加属性</span></h1><p><code>Object.defineProperty()</code> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。</p>
+<h3><span id="参数">参数</span></h3><ul>
+<li><p><code>obj</code></p>
+<p>要定义属性的对象。</p>
 </li>
-<li><a href="#query%E4%BC%A0%E5%8F%82">query传参</a><ul>
-<li><a href="#%E5%86%99%E6%B3%951-1">写法1</a></li>
-<li><a href="#%E5%86%99%E6%B3%952-1">写法2</a></li>
-</ul>
+<li><p><code>prop</code></p>
+<p>要定义或修改的属性的名称或<code> symbol</code>。</p>
+</li>
+<li><p><code>descriptor</code></p>
+<p>要定义或修改的属性描述符。</p>
 </li>
 </ul>
-</li>
-<li><a href="#%E4%BA%8Crouter-link%E7%9A%84%E5%85%B6%E4%BD%99%E5%B1%9E%E6%80%A7">二.router-link的其余属性</a><ul>
-<li><a href="#replace">replace</a></li>
-<li><a href="#append">append</a></li>
-<li><a href="#tag">tag</a></li>
-<li><a href="#exact">exact</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="vue-router传参">vue-router传参</span></h1><h2><span id="一router-link的props-to">一.router-link的props : to</span></h2><h3><span id="param传参">param传参</span></h3><h4><span id="写法1">写法1</span></h4><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// /home/message的简化写法</span></span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: Message</span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/home/message/1&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>子组件<code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123;$route.params.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4><span id="写法2">写法2</span></h4><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// /home/message的简化写法</span></span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; name: &#x27;message&#x27;, params: &#123; id: 1 &#125;&#125;&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>子组件<code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123;$route.params.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4><span id="写法3">写法3</span></h4><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// /home/message的简化写法</span></span><br><span class="line">  <span class="attr">path</span>: <span class="string">&#x27;message/:id&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">  <span class="attr">props</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; name: &#x27;message&#x27;, params: &#123; id: 1 &#125;&#125;&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>子组件<code>Message.vue</code>用props接收参数</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">name</span>: <span class="string">&#x27;Message&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">props</span>: [<span class="string">&#x27;id&#x27;</span>]</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4><span id="写法4">写法4</span></h4><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">         <span class="comment">// /home/message的简化写法</span></span><br><span class="line">         <span class="attr">path</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">         <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">         <span class="attr">props</span>: <span class="function"><span class="params">route</span> =&gt;</span> route.params,</span><br><span class="line">         <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; name: &#x27;message&#x27;, params: &#123; id: 1 &#125;&#125;&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>子组件<code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123;$route.params.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3><span id="返回值">返回值</span></h3><p>被传递给函数的对象。</p>
+<h3><span id="描述">描述</span></h3><p><code>configurable</code>是否可以重新定义 默认值：false</p>
+<p><code>enumerable</code>是否可以枚举  默认值：false</p>
+<p><code>value</code>初始值  默认值：undefined</p>
+<p><code>writable</code>是否可以修改属性值  默认值：false</p>
+<p><code>get</code>属性的 <code>getter </code>函数  默认值：undefined</p>
+<p><code>set</code>属性的 s<code>etter </code>函数  默认值：undefined</p>
+<h3><span id="示例">示例</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;age&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;description&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">false</span>,</span><br><span class="line">  get () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name + <span class="string">&#x27;-&#x27;</span> + <span class="built_in">this</span>.age</span><br><span class="line">  &#125;,</span><br><span class="line">  set (value) &#123;</span><br><span class="line">    <span class="keyword">const</span> des = value.split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.name = des[<span class="number">0</span>]</span><br><span class="line">    <span class="built_in">this</span>.age = des[<span class="number">1</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 枚举属性名</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj)) <span class="comment">// [&quot;name&quot;, &quot;age&quot;]</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">// obj Tom 20 Tom-20</span></span><br><span class="line">obj.description = <span class="string">&#x27;Killy-21&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description)<span class="comment">// obj Killy 21 Killy-21</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;damu&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,   <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,  <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">true</span> <span class="comment">//不能重新定义</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">//obj Killy 21 Killy-21</span></span><br></pre></td></tr></table></figure>
 
 
-
-<h3><span id="query传参">query传参</span></h3><h4><span id="写法1">写法1</span></h4><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">          <span class="comment">// /home/message的简化写法</span></span><br><span class="line">          <span class="attr">path</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">          <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/home/message?id=1&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>子组件<code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123;$route.query.id&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4><span id="写法2">写法2</span></h4><p>路由配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// /home/message的简化写法</span></span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">    <span class="comment">// 命名的路由</span></span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;message&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: Message</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p><code>Home.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; name: &#x27;message&#x27;,query: &#123;id: 1&#125;&#125;&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>或</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; path: &#x27;message&#x27;,query: &#123;id: 1&#125;&#125;&quot;</span>&gt;</span>消息<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>Message.vue</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>message-id: &#123;&#123; $route.query.id &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2><span id="二router-link的其余属性">二.router-link的其余属性</span></h2><h3><span id="replace">replace</span></h3><ul>
-<li><p>类型: <code>boolean</code></p>
-</li>
-<li><p>默认值: <code>false</code></p>
-<p>设置 <code>replace</code> 属性的话，当点击时，会调用 <code>router.replace()</code> 而不是 <code>router.push()</code>，于是导航后不会留下 history 记录。</p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; path: &#x27;/abc&#x27;&#125;&quot;</span> <span class="attr">replace</span>&gt;</span><span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3><span id="append">append</span></h3><ul>
-<li><p>类型: <code>boolean</code></p>
-</li>
-<li><p>默认值: <code>false</code></p>
-<p>设置 <code>append</code> 属性后，则在当前 (相对) 路径前添加基路径。例如，我们从 <code>/a</code> 导航到一个相对路径 <code>b</code>，如果没有配置 <code>append</code>，则路径为 <code>/b</code>，如果配了，则为 <code>/a/b</code></p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">:to</span>=<span class="string">&quot;&#123; path: &#x27;relative/path&#x27;&#125;&quot;</span> <span class="attr">append</span>&gt;</span><span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3><span id="tag">tag</span></h3><ul>
-<li><p>类型: <code>string</code></p>
-</li>
-<li><p>默认值: <code>&quot;a&quot;</code></p>
-<p>有时候想要 <code>&lt;router-link&gt;</code> 渲染成某种标签，例如 <code>&lt;li&gt;</code>。 于是我们使用 <code>tag</code> prop 类指定何种标签，同样它还是会监听点击，触发导航。</p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/foo&quot;</span> <span class="attr">tag</span>=<span class="string">&quot;li&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 渲染结果 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3><span id="exact">exact</span></h3><ul>
-<li><p>类型: <code>boolean</code></p>
-</li>
-<li><p>默认值: <code>false</code></p>
-</li>
-</ul>
-<p>“是否激活”默认类名的依据是<strong>包含匹配</strong>。 举个例子，如果当前的路径是 <code>/a</code> 开头的，那么 <code>&lt;router-link to=&quot;/a&quot;&gt;</code> 也会被设置 CSS 类名。</p>
-<p>按照这个规则，每个路由都会激活 <code>&lt;router-link to=&quot;/&quot;&gt;</code>！想要链接使用“精确匹配模式”，则使用 <code>exact</code> 属性：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这个链接只会在地址为 / 的时候被激活 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/&quot;</span> <span class="attr">exact</span>&gt;</span><span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
       
 
       
@@ -314,15 +210,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">router</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">路由</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">definedProperty</a>
         		</li>
       		
 		</ul>
@@ -334,7 +230,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/vue//" class="article-tag-list-link color4">vue</a>
+        			<a href="/categories/js//" class="article-tag-list-link color3">js</a>
         		</li>
       		
 		</ul>
@@ -343,7 +239,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/18/vue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/19/defineProperty/">展开全文 >></a>
         </p>
       
 
@@ -375,7 +271,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/9/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/9/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -559,6 +455,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES8</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Vuex</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
             
             <div class="clearfix"></div>
