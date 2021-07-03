@@ -156,47 +156,35 @@
             
 
   
-    <article id="post-defineProperty" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-React脚手架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/19/defineProperty/">defineProperty</a>
+      <a class="article-title" href="/2021/06/26/React%E8%84%9A%E6%89%8B%E6%9E%B6/">React脚手架</a>
     </h1>
   
 
         
-        <a href="/2021/06/19/defineProperty/" class="archive-article-date">
-  	<time datetime="2021-06-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
+        <a href="/2021/06/26/React%E8%84%9A%E6%89%8B%E6%9E%B6/" class="archive-article-date">
+  	<time datetime="2021-06-26T12:12:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="给对象添加属性">给对象添加属性</span></h1><p><code>Object.defineProperty()</code> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。</p>
-<h3><span id="参数">参数</span></h3><ul>
-<li><p><code>obj</code></p>
-<p>要定义属性的对象。</p>
-</li>
-<li><p><code>prop</code></p>
-<p>要定义或修改的属性的名称或<code> symbol</code>。</p>
-</li>
-<li><p><code>descriptor</code></p>
-<p>要定义或修改的属性描述符。</p>
-</li>
-</ul>
-<h3><span id="返回值">返回值</span></h3><p>被传递给函数的对象。</p>
-<h3><span id="描述">描述</span></h3><p><code>configurable</code>是否可以重新定义 默认值：false</p>
-<p><code>enumerable</code>是否可以枚举  默认值：false</p>
-<p><code>value</code>初始值  默认值：undefined</p>
-<p><code>writable</code>是否可以修改属性值  默认值：false</p>
-<p><code>get</code>属性的 <code>getter </code>函数  默认值：undefined</p>
-<p><code>set</code>属性的 s<code>etter </code>函数  默认值：undefined</p>
-<h3><span id="示例">示例</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;age&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;description&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">false</span>,</span><br><span class="line">  get () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name + <span class="string">&#x27;-&#x27;</span> + <span class="built_in">this</span>.age</span><br><span class="line">  &#125;,</span><br><span class="line">  set (value) &#123;</span><br><span class="line">    <span class="keyword">const</span> des = value.split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.name = des[<span class="number">0</span>]</span><br><span class="line">    <span class="built_in">this</span>.age = des[<span class="number">1</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 枚举属性名</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj)) <span class="comment">// [&quot;name&quot;, &quot;age&quot;]</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">// obj Tom 20 Tom-20</span></span><br><span class="line">obj.description = <span class="string">&#x27;Killy-21&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description)<span class="comment">// obj Killy 21 Killy-21</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;damu&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,   <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,  <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">true</span> <span class="comment">//不能重新定义</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">//obj Killy 21 Killy-21</span></span><br></pre></td></tr></table></figure>
+        <h1><span id="react脚手架">React脚手架</span></h1><h3><span id="创建并启动项目">创建并启动项目</span></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局安装模板</span></span><br><span class="line">npm i -g create-react-app</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建项目</span></span><br><span class="line">create-react-app react-demo-01</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搭建成功</span></span><br><span class="line">Inside that directory, you can run several commands:</span><br><span class="line"></span><br><span class="line">  npm start</span><br><span class="line">    Starts the development server.</span><br><span class="line"></span><br><span class="line">  npm run build</span><br><span class="line">    Bundles the app into static files <span class="keyword">for</span> production.</span><br><span class="line"></span><br><span class="line">  npm <span class="built_in">test</span></span><br><span class="line">    Starts the <span class="built_in">test</span> runner.</span><br><span class="line"></span><br><span class="line">  npm run eject</span><br><span class="line">    Removes this tool and copies build dependencies, configuration files</span><br><span class="line">    and scripts into the app directory. If you <span class="keyword">do</span> this, you can’t go back!</span><br><span class="line"></span><br><span class="line">We suggest that you begin by typing:</span><br><span class="line"></span><br><span class="line">  <span class="built_in">cd</span> react-demo-01</span><br><span class="line">  npm start</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> react-demo-01</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
 
       
 
@@ -210,15 +198,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">definedProperty</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
         		</li>
       		
 		</ul>
@@ -230,7 +210,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/js//" class="article-tag-list-link color3">js</a>
+        			<a href="/categories/React//" class="article-tag-list-link color1">React</a>
         		</li>
       		
 		</ul>
@@ -239,7 +219,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/19/defineProperty/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/26/React%E8%84%9A%E6%89%8B%E6%9E%B6/">展开全文 >></a>
         </p>
       
 
@@ -271,7 +251,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -471,6 +451,26 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Context</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hook</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">props</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">组件通信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Error Boundary</a>
               </li>
             
             <div class="clearfix"></div>
