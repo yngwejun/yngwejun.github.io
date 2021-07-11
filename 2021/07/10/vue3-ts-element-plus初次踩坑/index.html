@@ -16,7 +16,7 @@
 <meta property="og:description" content="关于vue3+ts+element-plus项目的初次踩坑描述搭建一个vue3,ts,element-plus项目时，总有一些莫名其妙的问题。 脚手架：@vuecli 4.5  搭建脚手架项目时，选用了按需导入(vue-cli-plugin-element-plus)     脚手架通过别名引入的包会有红色波浪线提示，但是能运行，提示找不到   探索一番后发现一些问题我用的时vue ui 搭建的项">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-10T07:40:14.000Z">
-<meta property="article:modified_time" content="2021-07-10T07:41:30.512Z">
+<meta property="article:modified_time" content="2021-07-11T16:38:27.660Z">
 <meta property="article:author" content="yngwejun">
 <meta property="article:tag" content="vue3">
 <meta property="article:tag" content="element-plus">
@@ -200,11 +200,7 @@
 <h5><span id="但是脚手架本身已经配置好了路径别名">但是脚手架本身已经配置好了路径别名</span></h5><p><code>tsconfig.json</code></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">&quot;paths&quot;</span>: &#123;</span><br><span class="line"></span><br><span class="line">      <span class="attr">&quot;@/*&quot;</span>: [</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;src/*&quot;</span></span><br><span class="line"></span><br><span class="line">      ]</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3><span id="最后发现问题源自于一个地方vetur插件对vue3ts的支持并不友好">最后发现问题源自于一个地方：vetur插件对vue3,ts的支持并不友好</span></h3><p>#####于是我在vscode中卸载了这个插件，这些警告都没了，控制台干干净净，但是，语法没有高亮</p>
-<p>于是我跟换了这个插件，感觉舒爽了很多</p>
-<p><code>Vue 3 Support - All In One</code></p>
-<p>插件的描述：</p>
-<p>Vue 2/3 Code Syntax Highlight, Snippets, Template Generator And Code Formatters Into Visual</p>
+<h3><span id="最后发现问题源自于一个地方vetur插件对vue3ts的支持并不友好">最后发现问题源自于一个地方：vetur插件对vue3,ts的支持并不友好</span></h3><h3><span id="volar-插件">Volar-插件</span></h3><p>Language support for Vue 3<br>我在vscode中安装了这个插件：据说是vue的新一代插件，集成了vetur的相关功能，如高亮、语法提示等</p>
 <h6><span id="如果君非大牛希望对你所帮助">如果君非大牛，希望对你所帮助</span></h6>
       
 
