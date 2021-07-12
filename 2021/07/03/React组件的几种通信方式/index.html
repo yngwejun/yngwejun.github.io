@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="https://yngwejun.github.io">
   <title>React组件的几种通信方式 | 和平主义虫虫</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="React组件通信方式组件之间的几种关系 父子 兄弟（非嵌套） 祖孙（跨级）  通信方式1.props:children props render props 2.消息订阅与发布pubs-sub、event等 3.集中式管理redux、dva等 4.Context生产者-消费者模式 较好的搭配方式父子组件：props 兄弟组件：消息订阅与发布，集中式管理 祖孙组件：消息订阅与发布，集中式管理，Co">
+  <meta name="description" content="组件之间的几种关系 父子 兄弟（非嵌套） 祖孙（跨级）  通信方式1.props:children props render props 2.消息订阅与发布pubs-sub、event等 3.集中式管理redux、dva等 4.Context生产者-消费者模式 较好的搭配方式父子组件：props 兄弟组件：消息订阅与发布，集中式管理 祖孙组件：消息订阅与发布，集中式管理，Context（开发用的少">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React组件的几种通信方式">
 <meta property="og:url" content="https://yngwejun.github.io/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="和平主义虫虫">
-<meta property="og:description" content="React组件通信方式组件之间的几种关系 父子 兄弟（非嵌套） 祖孙（跨级）  通信方式1.props:children props render props 2.消息订阅与发布pubs-sub、event等 3.集中式管理redux、dva等 4.Context生产者-消费者模式 较好的搭配方式父子组件：props 兄弟组件：消息订阅与发布，集中式管理 祖孙组件：消息订阅与发布，集中式管理，Co">
+<meta property="og:description" content="组件之间的几种关系 父子 兄弟（非嵌套） 祖孙（跨级）  通信方式1.props:children props render props 2.消息订阅与发布pubs-sub、event等 3.集中式管理redux、dva等 4.Context生产者-消费者模式 较好的搭配方式父子组件：props 兄弟组件：消息订阅与发布，集中式管理 祖孙组件：消息订阅与发布，集中式管理，Context（开发用的少">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-03T04:31:34.000Z">
-<meta property="article:modified_time" content="2021-07-03T04:33:48.638Z">
+<meta property="article:modified_time" content="2021-07-12T07:17:12.158Z">
 <meta property="article:author" content="yngwejun">
 <meta property="article:tag" content="React">
 <meta property="article:tag" content="组件通信">
@@ -176,7 +176,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="react组件通信方式">React组件通信方式</span></h1><h4><span id="组件之间的几种关系">组件之间的几种关系</span></h4><ul>
+        <h4><span id="组件之间的几种关系">组件之间的几种关系</span></h4><ul>
 <li>父子</li>
 <li>兄弟（非嵌套）</li>
 <li>祖孙（跨级）</li>
@@ -613,6 +613,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">element</a>
               </li>
             
             <div class="clearfix"></div>

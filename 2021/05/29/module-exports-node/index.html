@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="https://yngwejun.github.io">
   <title>module-exports-node | 和平主义虫虫</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="nodejs 模块中的exports用exports导出一个模块以便在其他需要的模块中使用 foo.js中123456789&#x2F;&#x2F; modules foo.js var foo &#x3D; &amp;#x27;hello&amp;#x27;;function add (x,y) &amp;#123;  return x + y;&amp;#125;&#x2F;&#x2F; 通过exports 暴露一个属性或方法exports.add &#x3D; add; 在main">
+  <meta name="description" content="用exports导出一个模块以便在其他需要的模块中使用 foo.js中123456789&#x2F;&#x2F; modules foo.js var foo &#x3D; &amp;#x27;hello&amp;#x27;;function add (x,y) &amp;#123;  return x + y;&amp;#125;&#x2F;&#x2F; 通过exports 暴露一个属性或方法exports.add &#x3D; add; 在main.js中使用foo.js中的属性或方">
 <meta property="og:type" content="article">
 <meta property="og:title" content="module-exports-node">
 <meta property="og:url" content="https://yngwejun.github.io/2021/05/29/module-exports-node/index.html">
 <meta property="og:site_name" content="和平主义虫虫">
-<meta property="og:description" content="nodejs 模块中的exports用exports导出一个模块以便在其他需要的模块中使用 foo.js中123456789&#x2F;&#x2F; modules foo.js var foo &#x3D; &amp;#x27;hello&amp;#x27;;function add (x,y) &amp;#123;  return x + y;&amp;#125;&#x2F;&#x2F; 通过exports 暴露一个属性或方法exports.add &#x3D; add; 在main">
+<meta property="og:description" content="用exports导出一个模块以便在其他需要的模块中使用 foo.js中123456789&#x2F;&#x2F; modules foo.js var foo &#x3D; &amp;#x27;hello&amp;#x27;;function add (x,y) &amp;#123;  return x + y;&amp;#125;&#x2F;&#x2F; 通过exports 暴露一个属性或方法exports.add &#x3D; add; 在main.js中使用foo.js中的属性或方">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-05-29T06:58:06.000Z">
-<meta property="article:modified_time" content="2021-05-29T07:00:17.192Z">
+<meta property="article:modified_time" content="2021-07-12T07:12:29.312Z">
 <meta property="article:author" content="yngwejun">
 <meta property="article:tag" content="前端,博客,vue,bode,js,javascript,typescript,ts,es,html,css,less,sass,react">
 <meta name="twitter:card" content="summary">
@@ -175,7 +175,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="nodejs-模块中的exports">nodejs 模块中的exports</span></h1><h2><span id="用exports导出一个模块以便在其他需要的模块中使用">用exports导出一个模块以便在其他需要的模块中使用</span></h2><ul>
+        <h2><span id="用exports导出一个模块以便在其他需要的模块中使用">用exports导出一个模块以便在其他需要的模块中使用</span></h2><ul>
 <li>foo.js中<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules foo.js </span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过exports 暴露一个属性或方法</span></span><br><span class="line"><span class="built_in">exports</span>.add = add;</span><br></pre></td></tr></table></figure></li>
 <li>在main.js中使用foo.js中的属性或方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules main.js</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="built_in">require</span>(<span class="string">&#x27;./foo&#x27;</span>);</span><br><span class="line"><span class="comment">// 没有暴露的部分打印为undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.foo);<span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.add(<span class="number">1</span>,<span class="number">2</span>));<span class="comment">//3</span></span><br></pre></td></tr></table></figure></li>
 <li>不能使用这种方式暴露<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span> = add;</span><br></pre></td></tr></table></figure></li>
@@ -606,6 +606,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">element</a>
               </li>
             
             <div class="clearfix"></div>

@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="https://yngwejun.github.io">
   <title>React脚手架配置代理 | 和平主义虫虫</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="React脚手架配置代理脚手架本身的服务端口是3000 配置单个代理服务器1代码12345678910111213141516171819const express &#x3D; require(&amp;#x27;express&amp;#x27;)const app &#x3D; express()app.get(&amp;#x27;&#x2F;data&amp;#x27;,function(req,res) &amp;#123;  let data &#x3D; &amp;#1">
+  <meta name="description" content="说明脚手架本身的服务端口是3000 配置单个代理服务器1代码12345678910111213141516171819const express &#x3D; require(&amp;#x27;express&amp;#x27;)const app &#x3D; express()app.get(&amp;#x27;&#x2F;data&amp;#x27;,function(req,res) &amp;#123;  let data &#x3D; &amp;#123;     st">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React脚手架配置代理">
 <meta property="og:url" content="https://yngwejun.github.io/2021/06/30/React%E8%84%9A%E6%89%8B%E6%9E%B6%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/index.html">
 <meta property="og:site_name" content="和平主义虫虫">
-<meta property="og:description" content="React脚手架配置代理脚手架本身的服务端口是3000 配置单个代理服务器1代码12345678910111213141516171819const express &#x3D; require(&amp;#x27;express&amp;#x27;)const app &#x3D; express()app.get(&amp;#x27;&#x2F;data&amp;#x27;,function(req,res) &amp;#123;  let data &#x3D; &amp;#1">
+<meta property="og:description" content="说明脚手架本身的服务端口是3000 配置单个代理服务器1代码12345678910111213141516171819const express &#x3D; require(&amp;#x27;express&amp;#x27;)const app &#x3D; express()app.get(&amp;#x27;&#x2F;data&amp;#x27;,function(req,res) &amp;#123;  let data &#x3D; &amp;#123;     st">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-06-30T13:22:32.000Z">
-<meta property="article:modified_time" content="2021-06-30T13:24:28.980Z">
+<meta property="article:modified_time" content="2021-07-12T07:18:47.401Z">
 <meta property="article:author" content="yngwejun">
 <meta property="article:tag" content="React">
 <meta property="article:tag" content="proxy">
@@ -176,7 +176,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="react脚手架配置代理">React脚手架配置代理</span></h1><p>脚手架本身的服务端口是3000</p>
+        <h2><span id="说明">说明</span></h2><p>脚手架本身的服务端口是3000</p>
 <h3><span id="配置单个代理">配置单个代理</span></h3><h5><span id="服务器1代码">服务器1代码</span></h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/data&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> data = &#123;</span><br><span class="line">     <span class="attr">students</span>: [</span><br><span class="line">       &#123;<span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">sex</span>: <span class="string">&#x27;男&#x27;</span>&#125;,</span><br><span class="line">       &#123;<span class="attr">name</span>: <span class="string">&#x27;Killy&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">sex</span>: <span class="string">&#x27;女&#x27;</span>&#125;,</span><br><span class="line">       &#123;<span class="attr">name</span>: <span class="string">&#x27;Kimi&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">sex</span>: <span class="string">&#x27;男&#x27;</span>&#125;</span><br><span class="line">     ]</span><br><span class="line">  &#125;</span><br><span class="line">  res.send(<span class="built_in">JSON</span>.stringify(data))</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">5000</span>,<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (!err) <span class="built_in">console</span>.log(<span class="string">&#x27;server running at port http://localhost:5000&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h5><span id="在脚手架的packagejson加">在脚手架的<code>package.json</code>加</span></h5><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;proxy&quot;</span>: <span class="string">&quot;http://localhost:5000&quot;</span></span><br></pre></td></tr></table></figure>
@@ -612,6 +612,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">element</a>
               </li>
             
             <div class="clearfix"></div>
