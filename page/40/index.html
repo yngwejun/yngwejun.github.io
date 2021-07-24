@@ -156,34 +156,58 @@
             
 
   
-    <article id="post-art-template" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-module-exports-node" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/28/art-template/">art-template</a>
+      <a class="article-title" href="/2021/05/29/module-exports-node/">module-exports-node</a>
     </h1>
   
 
         
-        <a href="/2021/05/28/art-template/" class="archive-article-date">
-  	<time datetime="2021-05-28T15:06:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-28</time>
+        <a href="/2021/05/29/module-exports-node/" class="archive-article-date">
+  	<time datetime="2021-05-29T06:58:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2><span id="描述">描述</span></h2><ul>
-<li>js模板引擎</li>
-<li>下载：npm install art-template<h2><span id="在浏览器中使用">在浏览器中使用</span></h2></li>
-<li>引入网页<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;../node_modules/art-template/lib/template-web.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/template&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tp1&quot;</span>&gt;</span><span class="handlebars"><span class="xml"></span></span></span><br><span class="line"><span class="xml"><span class="handlebars">    hello </span><span class="template-variable">&#123;&#123;<span class="name">name</span>&#125;&#125;</span><span class="xml"></span></span></span><br><span class="line"><span class="xml"><span class="handlebars">  </span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> rest = template (<span class="string">&#x27;tp1&#x27;</span>,&#123;</span></span><br><span class="line"><span class="javascript">      <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span></span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(rest)</span></span><br><span class="line"><span class="javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2><span id="在node中使用">在node中使用</span></h2></li>
-<li>安装npm install art-template</li>
-<li>在需要引用的文件中加载，require（’art-template’）</li>
-<li>查文档，使用模板引擎API<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> template = <span class="built_in">require</span> (<span class="string">&#x27;art-template&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+        <h2><span id="用exports导出一个模块以便在其他需要的模块中使用">用exports导出一个模块以便在其他需要的模块中使用</span></h2><ul>
+<li>foo.js中<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules foo.js </span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过exports 暴露一个属性或方法</span></span><br><span class="line"><span class="built_in">exports</span>.add = add;</span><br></pre></td></tr></table></figure></li>
+<li>在main.js中使用foo.js中的属性或方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// modules main.js</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="built_in">require</span>(<span class="string">&#x27;./foo&#x27;</span>);</span><br><span class="line"><span class="comment">// 没有暴露的部分打印为undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.foo);<span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.add(<span class="number">1</span>,<span class="number">2</span>));<span class="comment">//3</span></span><br></pre></td></tr></table></figure></li>
+<li>不能使用这种方式暴露<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span> = add;</span><br></pre></td></tr></table></figure></li>
+<li>给module.exports赋值的方式来直接暴露某一个属性或方法，而非挂载的方式<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.expprts = add;</span><br></pre></td></tr></table></figure>
+<h2><span id="require加载"><strong>require加载</strong></span></h2></li>
+<li><strong>语法：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 自定义名称 = <span class="built_in">require</span>(<span class="string">&#x27;模块&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><strong>作用：</strong><ol>
+<li>执行被加载模块中的代码</li>
+<li>得到被加载模块中的 <strong>exports导出接口对象</strong><h2><span id="exports导出">exports导出</span></h2></li>
+</ol>
+</li>
+<li>node是模块作用域，默认文件中所有的成员只在当前文件模块中有效</li>
+<li>对于希望被其他模块访问的成员，我们需要把这些成员挂载到exports接口对象中 <ol>
+<li>导出单个成员<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;hello word&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;猪八戒&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">800</span>,</span><br><span class="line">  <span class="attr">add</span>: <span class="function"><span class="keyword">function</span> (<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>覆盖<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="comment">//以下会覆盖前面的导出</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="string">&#x27;word&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>导出多个成员<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.a = <span class="number">12</span>;</span><br><span class="line"><span class="built_in">exports</span>.b = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">exports</span>.c = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="built_in">exports</span>.d = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;hi&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span>.f = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;猪八戒&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">800</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="理解"><strong>理解</strong></span></h2></li>
+</ol>
+</li>
+<li>在node中，每个模块内部都有一个module对象，该对象有一个成员叫exports<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</span><br><span class="line">  <span class="attr">exports</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>如果希望导出成员，需要这样操作<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports.add = add;</span><br></pre></td></tr></table></figure></li>
+<li>但是这样做很麻烦，操作太多，在node中，为了方便，在模块中有这样一句代码<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// exports是module.exports 的引用</span></span><br><span class="line"><span class="comment">// 指向同一个内存地址</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">exports</span> = <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure></li>
+<li>exports 是module.exports的一个引用<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">exports</span> === <span class="built_in">module</span>.exports);<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.a = <span class="number">123</span>;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">module</span>.exports.a = <span class="number">123</span>;</span><br><span class="line"><span class="comment">// 因为 exports 和 module.exports 指向同一个内存对象</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>但是导出单个对象是不能这么做</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给exports赋值相当于，exports指向了新的的内存地址</span></span><br><span class="line"><span class="comment">// 此时 module.exports 不会受到exports的改变影响</span></span><br><span class="line"><span class="comment">// 所以此次暴露的方法和属性是无效的</span></span><br><span class="line"><span class="built_in">exports</span> = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">123</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 所以暴露单个成员是 只能给 module.exports赋值</span></span><br><span class="line"><span class="comment">// 如下</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">123</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;hello&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>require得到的是module.exports，而不是exports</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 也就是说模块返回的是module.exports</span></span><br><span class="line"><span class="keyword">return</span> <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure></li>
 </ul>
 
       
@@ -193,33 +217,11 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">art-template</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/template//" class="article-tag-list-link color4">template</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/28/art-template/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/05/29/module-exports-node/">展开全文 >></a>
         </p>
       
 
@@ -251,7 +253,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/39/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/41/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/39/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/41/">下一页</a>
     </nav>
   
 
@@ -487,6 +489,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES9</a>
               </li>
             
             <div class="clearfix"></div>

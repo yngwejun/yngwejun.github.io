@@ -156,36 +156,33 @@
             
 
   
-    <article id="post-React脚手架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-React消息订阅与发布" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/26/React%E8%84%9A%E6%89%8B%E6%9E%B6/">React脚手架</a>
+      <a class="article-title" href="/2021/06/30/React%E6%B6%88%E6%81%AF%E8%AE%A2%E9%98%85%E4%B8%8E%E5%8F%91%E5%B8%83/">React消息订阅与发布</a>
     </h1>
   
 
         
-        <a href="/2021/06/26/React%E8%84%9A%E6%89%8B%E6%9E%B6/" class="archive-article-date">
-  	<time datetime="2021-06-26T12:12:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-26</time>
+        <a href="/2021/06/30/React%E6%B6%88%E6%81%AF%E8%AE%A2%E9%98%85%E4%B8%8E%E5%8F%91%E5%B8%83/" class="archive-article-date">
+  	<time datetime="2021-06-30T13:25:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3><span id="创建并启动项目">创建并启动项目</span></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局安装模板</span></span><br><span class="line">npm i -g create-react-app</span><br></pre></td></tr></table></figure>
+        <h3><span id="安装">安装</span></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i pubsub-js</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建项目</span></span><br><span class="line">create-react-app react-demo-01</span><br></pre></td></tr></table></figure>
+<h3><span id="引入">引入</span></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import PubSub from <span class="string">&#x27;pubsub-js&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搭建成功</span></span><br><span class="line">Inside that directory, you can run several commands:</span><br><span class="line"></span><br><span class="line">  npm start</span><br><span class="line">    Starts the development server.</span><br><span class="line"></span><br><span class="line">  npm run build</span><br><span class="line">    Bundles the app into static files <span class="keyword">for</span> production.</span><br><span class="line"></span><br><span class="line">  npm <span class="built_in">test</span></span><br><span class="line">    Starts the <span class="built_in">test</span> runner.</span><br><span class="line"></span><br><span class="line">  npm run eject</span><br><span class="line">    Removes this tool and copies build dependencies, configuration files</span><br><span class="line">    and scripts into the app directory. If you <span class="keyword">do</span> this, you can’t go back!</span><br><span class="line"></span><br><span class="line">We suggest that you begin by typing:</span><br><span class="line"></span><br><span class="line">  <span class="built_in">cd</span> react-demo-01</span><br><span class="line">  npm start</span><br></pre></td></tr></table></figure>
+<h3><span id="发布消息">发布消息</span></h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PubSub.publish(消息名，数据)</span></span><br><span class="line">PubSub.publish(<span class="string">&#x27;say&#x27;</span>,<span class="string">&#x27;hello world&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> react-demo-01</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
-
+<h3><span id="消息订阅">消息订阅</span></h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// PubSub.subscribe(消息名，callback(msg,data)&#123;&#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">componentDidMount</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">   <span class="built_in">this</span>.token = PubSub.subscribe(<span class="string">&#x27;say&#x27;</span>,<span class="function"><span class="keyword">function</span> (<span class="params">_,data</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(data)</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="title">componentWillUnmount</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">   PubSub.unsubscribe(<span class="built_in">this</span>.token)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -205,21 +202,10 @@
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/React//" class="article-tag-list-link color1">React</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/26/React%E8%84%9A%E6%89%8B%E6%9E%B6/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/30/React%E6%B6%88%E6%81%AF%E8%AE%A2%E9%98%85%E4%B8%8E%E5%8F%91%E5%B8%83/">展开全文 >></a>
         </p>
       
 
@@ -251,7 +237,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/16/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/18/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/16/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/18/">下一页</a>
     </nav>
   
 
@@ -487,6 +473,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES9</a>
               </li>
             
             <div class="clearfix"></div>

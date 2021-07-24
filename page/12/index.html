@@ -156,30 +156,34 @@
             
 
   
-    <article id="post-React路由懒加载" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-React中的Fragment标签" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/02/React%E8%B7%AF%E7%94%B1%E6%87%92%E5%8A%A0%E8%BD%BD/">React路由懒加载</a>
+      <a class="article-title" href="/2021/07/02/React%E4%B8%AD%E7%9A%84Fragment%E6%A0%87%E7%AD%BE/">React中的Fragment标签</a>
     </h1>
   
 
         
-        <a href="/2021/07/02/React%E8%B7%AF%E7%94%B1%E6%87%92%E5%8A%A0%E8%BD%BD/" class="archive-article-date">
-  	<time datetime="2021-07-02T10:59:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-02</time>
+        <a href="/2021/07/02/React%E4%B8%AD%E7%9A%84Fragment%E6%A0%87%E7%AD%BE/" class="archive-article-date">
+  	<time datetime="2021-07-02T13:05:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5><span id="引入">引入</span></h5><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Loading <span class="keyword">from</span> <span class="string">&#x27;./components/Loading&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; lazy, Suspense &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入需要懒加载的路由组件</span></span><br><span class="line"><span class="keyword">const</span> About = lazy(<span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;./pages/About&#x27;</span>))</span><br><span class="line"><span class="keyword">const</span> Home = lazy(<span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;./pages/Home&#x27;</span>))</span><br></pre></td></tr></table></figure>
+        <h2><span id="fragment">Fragment</span></h2><h5><span id="渲染的时候fragment被干掉可以消除最外层的div">渲染的时候Fragment被干掉,可以消除最外层的div</span></h5><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Fragment&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<h5><span id="使用">使用</span></h5><p><code>fallback</code>可以是一个虚拟DOM，也可以是一个组件</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Suspense fallback=&#123;<span class="xml"><span class="tag">&lt;<span class="name">Loading</span>/&gt;</span></span>&#125;&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/home&quot;</span> <span class="attr">component</span>=<span class="string">&#123;Home&#125;/</span>&gt;</span></span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/about&quot;</span> <span class="attr">component</span>=<span class="string">&#123;About&#125;/</span>&gt;</span></span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Redirect</span> <span class="attr">to</span>=<span class="string">&quot;/home&quot;</span>/&gt;</span></span></span><br><span class="line"> &lt;/Suspense&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;Fragment&gt;</span><br><span class="line">   <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>.....<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line">&lt;/Fragment&gt;</span><br></pre></td></tr></table></figure>
+
+<h5><span id="也可以这样写消除最外层没必要的div">也可以这样写，消除最外层没必要的div</span></h5><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;&gt;</span><br><span class="line">   <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>.....<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line">&lt;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h5><span id="区别">区别</span></h5><p>Fragment可以收到key属性</p>
+<p>空标签不可以</p>
 
       
 
@@ -194,10 +198,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">路由</a>
         		</li>
       		
 		</ul>
@@ -218,7 +218,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/02/React%E8%B7%AF%E7%94%B1%E6%87%92%E5%8A%A0%E8%BD%BD/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/07/02/React%E4%B8%AD%E7%9A%84Fragment%E6%A0%87%E7%AD%BE/">展开全文 >></a>
         </p>
       
 
@@ -250,7 +250,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/13/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/11/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/13/">下一页</a>
     </nav>
   
 
@@ -486,6 +486,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES9</a>
               </li>
             
             <div class="clearfix"></div>

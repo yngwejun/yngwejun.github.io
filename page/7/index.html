@@ -156,31 +156,40 @@
             
 
   
-    <article id="post-React组件的render属性" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-React组件的几种通信方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84render%E5%B1%9E%E6%80%A7/">React组件的render属性</a>
+      <a class="article-title" href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">React组件的几种通信方式</a>
     </h1>
   
 
         
-        <a href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84render%E5%B1%9E%E6%80%A7/" class="archive-article-date">
-  	<time datetime="2021-07-03T04:28:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-03</time>
+        <a href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-07-03T04:31:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1><span id="render-props">render props</span></h1><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;parent~~~render..............&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">A</span> <span class="attr">render</span>=<span class="string">&#123;(name)</span> =&gt;</span> <span class="tag">&lt;<span class="name">B</span> <span class="attr">name</span>=<span class="string">&#123;name&#125;/</span>&gt;</span>&#125;/&gt;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  state = &#123;<span class="attr">name</span>: <span class="string">&#x27;hello&#x27;</span>&#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;A~~~render..............&#x27;</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;A~~~props..............&#x27;</span>,<span class="built_in">this</span>.props)</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        A</span></span><br><span class="line"><span class="xml">        &#123;this.props.render(this.state.name)&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;B~~~render..............&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        B</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        &#123;this.props.name&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h4><span id="组件之间的几种关系">组件之间的几种关系</span></h4><ul>
+<li>父子</li>
+<li>兄弟（非嵌套）</li>
+<li>祖孙（跨级）</li>
+</ul>
+<h4><span id="通信方式">通信方式</span></h4><h5><span id="1props">1.<code>props</code>:</span></h5><p>children props</p>
+<p>render props</p>
+<h5><span id="2消息订阅与发布">2.消息订阅与发布</span></h5><p><code>pubs-sub</code>、<code>event</code>等</p>
+<h5><span id="3集中式管理">3.集中式管理</span></h5><p><code>redux</code>、<code>dva</code>等</p>
+<h5><span id="4context">4.<code>Context</code></span></h5><p>生产者-消费者模式</p>
+<h4><span id="较好的搭配方式">较好的搭配方式</span></h4><p>父子组件：props</p>
+<p>兄弟组件：消息订阅与发布，集中式管理</p>
+<p>祖孙组件：消息订阅与发布，集中式管理，<code>Context</code>（开发用的少，封装插件用的多）</p>
 
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 页面</span></span><br><span class="line">A</span><br><span class="line">B</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 控制台</span></span><br><span class="line">parent~~~render..............</span><br><span class="line">index.jsx:20 A~~~render..............</span><br><span class="line">index.jsx:21 A~~~props.............. &#123;render: ƒ&#125;</span><br><span class="line">index.jsx:34 B~~~render..............</span><br></pre></td></tr></table></figure>
       
 
       
@@ -197,7 +206,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">props</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">组件通信</a>
         		</li>
       		
 		</ul>
@@ -218,7 +227,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84render%E5%B1%9E%E6%80%A7/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">展开全文 >></a>
         </p>
       
 
@@ -250,7 +259,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/8/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/6/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/8/">下一页</a>
     </nav>
   
 
@@ -486,6 +495,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES9</a>
               </li>
             
             <div class="clearfix"></div>

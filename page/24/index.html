@@ -156,31 +156,32 @@
             
 
   
-    <article id="post-js文档碎片" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-ES7新特性" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/19/js%E6%96%87%E6%A1%A3%E7%A2%8E%E7%89%87/">js文档碎片</a>
+      <a class="article-title" href="/2021/06/20/ES7%E6%96%B0%E7%89%B9%E6%80%A7/">ES7新特性</a>
     </h1>
   
 
         
-        <a href="/2021/06/19/js%E6%96%87%E6%A1%A3%E7%A2%8E%E7%89%87/" class="archive-article-date">
-  	<time datetime="2021-06-19T09:10:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
+        <a href="/2021/06/20/ES7%E6%96%B0%E7%89%B9%E6%80%A7/" class="archive-article-date">
+  	<time datetime="2021-06-20T07:32:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2><span id="文档碎片">文档碎片</span></h2><p>JavaScript中，文档碎片独立于DOM树之外，存在于内存中</p>
-<h2><span id="内容">内容</span></h2><p>创建文档碎片</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment()</span><br></pre></td></tr></table></figure>
+        <h2><span id="1arrayprototypeincludes">1.Array.prototype.includes</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">2</span>))  <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">5</span>))  <span class="comment">// 1</span></span><br><span class="line"><span class="comment">// es7</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.includes(<span class="number">2</span>)) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.includes(<span class="number">5</span>)) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
 
-<h3><span id="示例">示例</span></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;wrapper&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn&quot;</span>&gt;</span>放入文档碎片<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn2&quot;</span>&gt;</span>将文档碎片插入dom<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;say&quot;</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="comment">// 创建文档碎片</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment()</span></span><br><span class="line"><span class="javascript">  </span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn&#x27;</span>)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> btn2 = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn2&#x27;</span>)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">  btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// &lt;p id=&quot;say&quot;&gt;hello&lt;/p&gt; 从dom中移除放入内存中</span></span></span><br><span class="line"><span class="javascript">    fragment.appendChild(<span class="built_in">document</span>.getElementById(<span class="string">&#x27;say&#x27;</span>))</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(fragment) <span class="comment">// &lt;p id=&quot;say&quot;&gt;hello&lt;/p&gt;</span></span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">  </span></span><br><span class="line"><span class="javascript">  btn2.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 将文档碎片插入dom树</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> wrapper = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;wrapper&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    wrapper.appendChild(fragment)</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(fragment) <span class="comment">// </span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 内容已从内存中移除，并放到了页面中</span></span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2><span id="2指数运算符">2.指数运算符（**）</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">8</span> ** <span class="number">3</span>) <span class="comment">// 512   ==&gt; 8*8*8</span></span><br></pre></td></tr></table></figure>
+
 
       
 
@@ -194,15 +195,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ES7</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Dom</a>
         		</li>
       		
 		</ul>
@@ -223,7 +220,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/19/js%E6%96%87%E6%A1%A3%E7%A2%8E%E7%89%87/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/20/ES7%E6%96%B0%E7%89%B9%E6%80%A7/">展开全文 >></a>
         </p>
       
 
@@ -255,7 +252,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/23/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/25/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/23/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/25/">下一页</a>
     </nav>
   
 
@@ -491,6 +488,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES9</a>
               </li>
             
             <div class="clearfix"></div>

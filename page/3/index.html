@@ -156,51 +156,38 @@
             
 
   
-    <article id="post-vue3-ts-element-plus初次踩坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-vue-ts项目对app类型限制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/10/vue3-ts-element-plus%E5%88%9D%E6%AC%A1%E8%B8%A9%E5%9D%91/">vue3+ts_element-plus初次踩坑</a>
+      <a class="article-title" href="/2021/07/21/vue-ts%E9%A1%B9%E7%9B%AE%E5%AF%B9app%E7%B1%BB%E5%9E%8B%E9%99%90%E5%88%B6/">vue+ts项目对app类型限制</a>
     </h1>
   
 
         
-        <a href="/2021/07/10/vue3-ts-element-plus%E5%88%9D%E6%AC%A1%E8%B8%A9%E5%9D%91/" class="archive-article-date">
-  	<time datetime="2021-07-10T07:40:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-10</time>
+        <a href="/2021/07/21/vue-ts%E9%A1%B9%E7%9B%AE%E5%AF%B9app%E7%B1%BB%E5%9E%8B%E9%99%90%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2021-07-21T04:02:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3><span id="描述">描述</span></h3><p>搭建一个vue3,ts,element-plus项目时，总有一些莫名其妙的问题。</p>
-<h3><span id="脚手架vuecli-45">脚手架：@vuecli 4.5</span></h3><blockquote>
-<ul>
-<li>搭建脚手架项目时，选用了按需导入(vue-cli-plugin-element-plus)</li>
-</ul>
+        <h3><span id="描述">描述</span></h3><p>做一个ts+vue+element-plus项目的时候总是有警告</p>
+<h3><span id="消除警告">消除警告</span></h3><blockquote>
+<ol>
+<li>将<code>src/plugins/element.js</code>文件后缀名改成ts</li>
+<li>在element里面还要对脚手架现有的代码进行类型限制</li>
+</ol>
 </blockquote>
-<blockquote>
-<ul>
-<li>脚手架通过别名引入的包会有红色波浪线提示，但是能运行，提示找不到</li>
-</ul>
-</blockquote>
-<h3><span id="探索一番后发现一些问题">探索一番后发现一些问题</span></h3><h4><span id="我用的时vue-ui-搭建的项目">我用的时vue ui 搭建的项目</span></h4><p>项目创建完成之后，elemen文件：</p>
-<p><code>src/plugins/element.js</code>这个文件是选择了按需导入，之后脚手架自动创建的。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; ElButton &#125; <span class="keyword">from</span> <span class="string">&#x27;element-plus&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lang <span class="keyword">from</span> <span class="string">&#x27;element-plus/lib/locale/lang/zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> locale <span class="keyword">from</span> <span class="string">&#x27;element-plus/lib/locale&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (app) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">  locale.use(lang)</span><br><span class="line"></span><br><span class="line">  app.use(ElButton)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4><span id="在elementts中引入">在element.ts中引入</span></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; App &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>脚手架在main.ts中引入的这个文件会报错，这时候我纳闷的是，既然是脚手架搭建的项目，初次启动项目应该没有问题，但是事与愿违，一堆警告,还无从下手，于是跟着网上的资料，把文件后缀名改成了ts,貌似参数app这个地方行不通，于是又加了个类型限制<code>app: any</code>,是能通了但是，控制台有许多警告信息，揪心。，这只是坑一</strong></p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> installElementPlus <span class="keyword">from</span> <span class="string">&#x27;./plugins/element&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里会报类型错误 any</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4><span id="在elementts中-对参数app和函数返回值进行类型限制">在element.ts中 对参数app和函数返回值进行类型限制</span></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (app:App&lt;Element&gt;):<span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">  locale.use(lang)</span><br><span class="line">  components.forEach(<span class="function"><span class="params">component</span> =&gt;</span> &#123;</span><br><span class="line">    app.use(component)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// app.use(ElButton).use(ElFormItem).use(ElForm).use(ElInput).use(ElLink).use(ElMain).use(ElMenu).use(ElHeader).use(ElContainer).use(ElAside)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4><span id="坑二">坑二</span></h4><h5><span id="红色波浪线警告">红色波浪线警告</span></h5><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> HelloWorld <span class="keyword">from</span> <span class="string">&#x27;@/components/HelloWorld.vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里的引入会红色波浪线警告，..not found module..</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5><span id="但是脚手架本身已经配置好了路径别名">但是脚手架本身已经配置好了路径别名</span></h5><p><code>tsconfig.json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">&quot;paths&quot;</span>: &#123;</span><br><span class="line"></span><br><span class="line">      <span class="attr">&quot;@/*&quot;</span>: [</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;src/*&quot;</span></span><br><span class="line"></span><br><span class="line">      ]</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3><span id="最后发现问题源自于一个地方vetur插件对vue3ts的支持并不友好">最后发现问题源自于一个地方：vetur插件对vue3,ts的支持并不友好</span></h3><h3><span id="volar-插件">Volar-插件</span></h3><p>Language support for Vue 3<br>我在vscode中安装了这个插件：据说是vue的新一代插件，集成了vetur的相关功能，如高亮、语法提示等</p>
-<h6><span id="如果君非大牛希望对你所帮助">如果君非大牛，希望对你所帮助</span></h6>
+<h3><span id="修改后的elementts文件">修改后的element.ts文件</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  ElButton,</span><br><span class="line">  ElForm,</span><br><span class="line">  ElFormItem,</span><br><span class="line">  ElInput,</span><br><span class="line">  ElLink,</span><br><span class="line">  ElContainer,</span><br><span class="line">  ElHeader,</span><br><span class="line">  ElAside,</span><br><span class="line">  ElMain,</span><br><span class="line">  ElMenu,</span><br><span class="line">  ElMenuItem,</span><br><span class="line">  ElMenuItemGroup,</span><br><span class="line">  ElSubmenu,</span><br><span class="line">  ElRow,</span><br><span class="line">  ElCol,</span><br><span class="line">  ElAlert</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;element-plus&#x27;</span></span><br><span class="line"><span class="keyword">import</span> lang <span class="keyword">from</span> <span class="string">&#x27;element-plus/lib/locale/lang/zh-cn&#x27;</span></span><br><span class="line"><span class="keyword">import</span> locale <span class="keyword">from</span> <span class="string">&#x27;element-plus/lib/locale&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; App &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> components = [</span><br><span class="line">  ElButton,</span><br><span class="line">  ElForm,</span><br><span class="line">  ElFormItem,</span><br><span class="line">  ElInput,</span><br><span class="line">  ElLink,</span><br><span class="line">  ElContainer,</span><br><span class="line">  ElHeader,</span><br><span class="line">  ElAside,</span><br><span class="line">  ElMain,</span><br><span class="line">  ElMenu,</span><br><span class="line">  ElMenuItem,</span><br><span class="line">  ElMenuItemGroup,</span><br><span class="line">  ElSubmenu,</span><br><span class="line">  ElRow,</span><br><span class="line">  ElCol,</span><br><span class="line">  ElAlert</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (app:App&lt;Element&gt;):<span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">  locale.use(lang)</span><br><span class="line">  components.forEach(<span class="function"><span class="params">component</span> =&gt;</span> &#123;</span><br><span class="line">    app.use(component)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// app.use(ElButton).use(ElFormItem).use(ElForm).use(ElInput).use(ElLink).use(ElMain).use(ElMenu).use(ElHeader).use(ElContainer).use(ElAside)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -213,7 +200,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vue3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -242,7 +229,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/10/vue3-ts-element-plus%E5%88%9D%E6%AC%A1%E8%B8%A9%E5%9D%91/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/07/21/vue-ts%E9%A1%B9%E7%9B%AE%E5%AF%B9app%E7%B1%BB%E5%9E%8B%E9%99%90%E5%88%B6/">展开全文 >></a>
         </p>
       
 
@@ -274,7 +261,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
     </nav>
   
 
@@ -510,6 +497,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES9</a>
               </li>
             
             <div class="clearfix"></div>
