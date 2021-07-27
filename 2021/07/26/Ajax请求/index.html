@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="https://yngwejun.github.io">
   <title>Ajax请求 | 和平主义虫虫</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Ajax应用场景  页面上拉加载跟多数据 列表数据五刷新分页 表单项离开焦点数据验证 搜索框文字自动下拉列表   Ajax的特点优点   无需刷新页面，就可以和服务器进行通信 允许根据用户事件，来更新页面内容   缺点   没有浏览历史，无法回退 存在跨域问题（同源） SEO不友好   Ajax的实现步骤 创建Ajax对象  1var xhr &#x3D; new XMLHttpRequest();   高">
+  <meta name="description" content="Ajax应用场景  页面上拉加载更多数据 列表数据无刷新分页 表单项离开焦点数据验证 搜索框文字自动下拉列表   Ajax的特点优点   无需刷新页面，就可以和服务器进行通信 允许根据用户事件，来更新页面内容   缺点   没有浏览历史，无法回退 存在跨域问题（同源） SEO不友好   Ajax的实现步骤 创建Ajax对象  1var xhr &#x3D; new XMLHttpRequest();   告">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ajax请求">
 <meta property="og:url" content="https://yngwejun.github.io/2021/07/26/Ajax%E8%AF%B7%E6%B1%82/index.html">
 <meta property="og:site_name" content="和平主义虫虫">
-<meta property="og:description" content="Ajax应用场景  页面上拉加载跟多数据 列表数据五刷新分页 表单项离开焦点数据验证 搜索框文字自动下拉列表   Ajax的特点优点   无需刷新页面，就可以和服务器进行通信 允许根据用户事件，来更新页面内容   缺点   没有浏览历史，无法回退 存在跨域问题（同源） SEO不友好   Ajax的实现步骤 创建Ajax对象  1var xhr &#x3D; new XMLHttpRequest();   高">
+<meta property="og:description" content="Ajax应用场景  页面上拉加载更多数据 列表数据无刷新分页 表单项离开焦点数据验证 搜索框文字自动下拉列表   Ajax的特点优点   无需刷新页面，就可以和服务器进行通信 允许根据用户事件，来更新页面内容   缺点   没有浏览历史，无法回退 存在跨域问题（同源） SEO不友好   Ajax的实现步骤 创建Ajax对象  1var xhr &#x3D; new XMLHttpRequest();   告">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-26T12:55:50.000Z">
-<meta property="article:modified_time" content="2021-07-26T12:59:04.215Z">
+<meta property="article:modified_time" content="2021-07-27T08:00:23.358Z">
 <meta property="article:author" content="yngwejun">
 <meta property="article:tag" content="Ajax">
 <meta name="twitter:card" content="summary">
@@ -177,8 +177,8 @@
       
         <h2><span id="ajax应用场景">Ajax应用场景</span></h2><blockquote>
 <ol>
-<li>页面上拉加载跟多数据</li>
-<li>列表数据五刷新分页</li>
+<li>页面上拉加载更多数据</li>
+<li>列表数据无刷新分页</li>
 <li>表单项离开焦点数据验证</li>
 <li>搜索框文字自动下拉列表</li>
 </ol>
@@ -204,7 +204,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
-<li>高数Ajax请求地址及请求方式</li>
+<li>告诉Ajax请求地址及请求方式</li>
 </ol>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://127.0.0.1:8081/person&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
@@ -389,6 +389,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2021/07/27/js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%A7%84%E8%8C%83/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          js模块化规范
+        
+      </div>
+    </a>
   
   
     <a href="/2021/07/24/ES9%E6%96%B0%E7%89%B9%E6%80%A7/" id="article-nav-older" class="article-nav-link-wrap">
@@ -687,6 +696,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Ajax</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">模块化</a>
               </li>
             
             <div class="clearfix"></div>

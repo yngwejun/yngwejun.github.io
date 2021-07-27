@@ -156,29 +156,39 @@
             
 
   
-    <article id="post-React错误边界" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-React组件的几种通信方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/03/React%E9%94%99%E8%AF%AF%E8%BE%B9%E7%95%8C/">React错误边界</a>
+      <a class="article-title" href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">React组件的几种通信方式</a>
     </h1>
   
 
         
-        <a href="/2021/07/03/React%E9%94%99%E8%AF%AF%E8%BE%B9%E7%95%8C/" class="archive-article-date">
-  	<time datetime="2021-07-03T04:30:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-03</time>
+        <a href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-07-03T04:31:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2><span id="react-错误边界error-boundary">React 错误边界（Error Boundary）</span></h2><h5><span id="描述">描述：</span></h5><p>将错误控制在一定范围内，使其不向外扩展，比如子组件残生错误，依然正常渲染父组件的效果</p>
-<h5><span id="特点">特点：</span></h5><p>只能捕获后代组件生命周期里边产生的错误，不能捕获自己产生的错误或其它的错误，</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  state = &#123;</span><br><span class="line">    <span class="attr">persons</span>: <span class="string">&#x27;hello&#x27;</span>,</span><br><span class="line">    <span class="attr">hasError</span>: <span class="string">&#x27;&#x27;</span><span class="comment">// 标识子组件产生错误</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 子组件报错时会调用，并挈带错误信息</span></span><br><span class="line">  <span class="keyword">static</span> getDerivedStateFromError (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error);</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">hasError</span>: error&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidCatch (error,info) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;err&#x27;</span>,error);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;info&#x27;</span>,info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">div</span>&gt;</span>parent<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        &#123;this.state.hasError ? <span class="tag">&lt;<span class="name">h2</span>&gt;</span>出现问题<span class="tag">&lt;/<span class="name">h2</span>&gt;</span> : <span class="tag">&lt;<span class="name">Child</span> <span class="attr">persons</span>=<span class="string">&#123;this.state.persons&#125;/</span>&gt;</span>&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">div</span>&gt;</span>child<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        &#123;</span></span><br><span class="line"><span class="xml">          this.props.persons.map(person =&gt; <span class="tag">&lt;<span class="name">div</span> <span class="attr">key</span>=<span class="string">&#123;this.person.id&#125;</span>&gt;</span></span></span><br><span class="line"><span class="xml">            &#123;person.id&#125;----&#123;person.name&#125;</span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">          )</span></span><br><span class="line"><span class="xml">        &#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h4><span id="组件之间的几种关系">组件之间的几种关系</span></h4><ul>
+<li>父子</li>
+<li>兄弟（非嵌套）</li>
+<li>祖孙（跨级）</li>
+</ul>
+<h4><span id="通信方式">通信方式</span></h4><h5><span id="1props">1.<code>props</code>:</span></h5><p>children props</p>
+<p>render props</p>
+<h5><span id="2消息订阅与发布">2.消息订阅与发布</span></h5><p><code>pubs-sub</code>、<code>event</code>等</p>
+<h5><span id="3集中式管理">3.集中式管理</span></h5><p><code>redux</code>、<code>dva</code>等</p>
+<h5><span id="4context">4.<code>Context</code></span></h5><p>生产者-消费者模式</p>
+<h4><span id="较好的搭配方式">较好的搭配方式</span></h4><p>父子组件：props</p>
+<p>兄弟组件：消息订阅与发布，集中式管理</p>
+<p>祖孙组件：消息订阅与发布，集中式管理，<code>Context</code>（开发用的少，封装插件用的多）</p>
 
       
 
@@ -196,7 +206,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Error Boundary</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">组件通信</a>
         		</li>
       		
 		</ul>
@@ -217,7 +227,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/03/React%E9%94%99%E8%AF%AF%E8%BE%B9%E7%95%8C/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/07/03/React%E7%BB%84%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">展开全文 >></a>
         </p>
       
 
@@ -249,7 +259,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/10/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/8/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/10/">下一页</a>
     </nav>
   
 
@@ -493,6 +503,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Ajax</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">模块化</a>
               </li>
             
             <div class="clearfix"></div>

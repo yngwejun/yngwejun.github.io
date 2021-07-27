@@ -156,126 +156,204 @@
             
 
   
-    <article id="post-Ajax请求" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-js模块化规范" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/26/Ajax%E8%AF%B7%E6%B1%82/">Ajax请求</a>
+      <a class="article-title" href="/2021/07/27/js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%A7%84%E8%8C%83/">js模块化规范</a>
     </h1>
   
 
         
-        <a href="/2021/07/26/Ajax%E8%AF%B7%E6%B1%82/" class="archive-article-date">
-  	<time datetime="2021-07-26T12:55:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-26</time>
+        <a href="/2021/07/27/js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%A7%84%E8%8C%83/" class="archive-article-date">
+  	<time datetime="2021-07-27T08:02:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2><span id="ajax应用场景">Ajax应用场景</span></h2><blockquote>
-<ol>
-<li>页面上拉加载跟多数据</li>
-<li>列表数据五刷新分页</li>
-<li>表单项离开焦点数据验证</li>
-<li>搜索框文字自动下拉列表</li>
-</ol>
-</blockquote>
-<h2><span id="ajax的特点">Ajax的特点</span></h2><p>优点</p>
-<blockquote>
-<ol>
-<li>无需刷新页面，就可以和服务器进行通信</li>
-<li>允许根据用户事件，来更新页面内容</li>
-</ol>
-</blockquote>
-<p>缺点</p>
-<blockquote>
-<ol>
-<li>没有浏览历史，无法回退</li>
-<li>存在跨域问题（同源）</li>
-<li>SEO不友好</li>
-</ol>
-</blockquote>
-<h2><span id="ajax的实现步骤">Ajax的实现步骤</span></h2><ol>
-<li>创建Ajax对象</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br></pre></td></tr></table></figure>
+        <!-- toc -->
 
-<ol start="2">
-<li>高数Ajax请求地址及请求方式</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://127.0.0.1:8081/person&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>发送请求</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.send();</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>获取服务器端给客户端的响应数据</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(xhr.responseText);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="xhr-readystate">XHR readyState</span></h2><p>存有<code>XMLHttpRequest</code>的状态，从0-4发生变化。</p>
 <ul>
-<li>0: 请求未初始化</li>
-<li>1: 服务器连接已建立（open方法调用完毕）</li>
-<li>2: 请求已接收（send方法调用完毕）</li>
-<li>3: 请求处理中</li>
-<li>4: 请求已完成，且响应已就绪</li>
+<li><a href="#commonjs">CommonJS</a><ul>
+<li><a href="#%E8%AF%B4%E6%98%8E">说明</a></li>
+<li><a href="#%E6%9A%B4%E9%9C%B2%E6%A8%A1%E5%9D%97">暴露模块</a></li>
+<li><a href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9D%97">引入模块</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn&#x27;</span>)</span><br><span class="line">    btn.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 创建对象</span></span><br><span class="line">      <span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">      <span class="comment">// 初始化设置</span></span><br><span class="line">      xhr.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://127.0.0.1:8081/person&#x27;</span>);</span><br><span class="line">      <span class="comment">// 发送</span></span><br><span class="line">      xhr.send();</span><br><span class="line">      <span class="comment">// 绑定事件</span></span><br><span class="line">      xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">          <span class="keyword">if</span> (xhr.status &gt;=<span class="number">200</span> &amp;&amp; xhr.status &lt;<span class="number">300</span>) &#123;</span><br><span class="line">            <span class="comment">// 输出响应体</span></span><br><span class="line">            <span class="built_in">console</span>.log(xhr.responseText)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><a href="#amd">AMD</a><ul>
+<li><a href="#%E8%AF%B4%E6%98%8E-1">说明</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89%E6%9A%B4%E9%9C%B2%E6%A8%A1%E5%9D%97">定义暴露模块：</a></li>
+<li><a href="#%E5%BC%95%E5%85%A5%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%9D%97">引入使用模块：</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0-1">实现</a></li>
+<li><a href="#%E4%BE%8B%E5%AD%90">例子</a></li>
+</ul>
+</li>
+<li><a href="#cmd">CMD</a><ul>
+<li><a href="#%E8%AF%B4%E6%98%8E-2">说明</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89%E6%9A%B4%E9%9C%B2%E6%A8%A1%E5%9D%97">定义暴露模块</a></li>
+<li><a href="#%E5%BC%95%E5%85%A5%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%9D%97">引入使用模块</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0-2">实现</a></li>
+<li><a href="#%E4%BE%8B%E5%AD%90-1">例子</a></li>
+</ul>
+</li>
+<li><a href="#es6">ES6</a><ul>
+<li><a href="#%E8%AF%B4%E6%98%8E-3">说明</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">基本语法</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0-3">实现</a></li>
+<li><a href="#babel-browserify%E4%BE%8B%E5%AD%90">Babel browserify例子</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
 
-<h2><span id="设置响应体数据类型">设置响应体数据类型</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn&#x27;</span>)</span><br><span class="line">    btn.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 创建对象</span></span><br><span class="line">      <span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">      <span class="comment">// 设置响应体数据的类型</span></span><br><span class="line">      xhr.responseType = <span class="string">&#x27;json&#x27;</span>;</span><br><span class="line">      <span class="comment">// 初始化设置</span></span><br><span class="line">      xhr.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://127.0.0.1:8081/person&#x27;</span>);</span><br><span class="line">      <span class="comment">// 发送</span></span><br><span class="line">      xhr.send();</span><br><span class="line">      <span class="comment">// 绑定事件</span></span><br><span class="line">      xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">          <span class="keyword">if</span> (xhr.status &gt;=<span class="number">200</span> &amp;&amp; xhr.status &lt;<span class="number">300</span>) &#123;</span><br><span class="line">            <span class="comment">// 输出响应体</span></span><br><span class="line">            <span class="built_in">console</span>.log(xhr.response)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 控制台输出</span></span><br><span class="line">&#123;<span class="attr">name</span>: <span class="string">&quot;Tom&quot;</span>, <span class="attr">age</span>: <span class="string">&quot;18&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="ajax的ie缓存问题">Ajax的IE缓存问题</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://127.0.0.1:8081/person/ie?t=&#x27;</span>+<span class="built_in">Date</span>.now());</span><br></pre></td></tr></table></figure>
-
-<h2><span id="网络异常处理">网络异常处理</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xhr.timeout = <span class="number">2000</span>;</span><br><span class="line"><span class="comment">// 网络异常，超时回调</span></span><br><span class="line">xhr.ontimeout = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">&#x27;网络异常,请稍后重试&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="取消请求">取消请求</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.abort()</span><br></pre></td></tr></table></figure>
-
-<h2><span id="jsonp">JSONP</span></h2><h4><span id="jsonp是什么">JSONP是什么？</span></h4><p>JSONP(JSON with Padding)是一个非官方的跨域解决方案，只支持get请求</p>
-<h4><span id="jsonp是怎么工作的">JSONP是怎么工作的？</span></h4><p>网页的某些标签具有跨越能力，比如：img、link、iframe、script。</p>
-<p>JSONP就是利用script标签的跨域能力来发送请求的。</p>
-<h4><span id="script标签的跨域特性">script标签的跨域特性</span></h4><p>打开本地的html</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///I:/<span class="built_in">test</span>/index.html</span><br></pre></td></tr></table></figure>
-
-<p>html中有这样一行代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>可知script标签是以http协议访问的资源，已经形成了跨域，但是丝毫不影响，axios中aoi的使用，说明了script具有跨域能力。</p>
-<p>再比如：打开live server，以本地的方式打开html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">!DOCTYPE html&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://127.0.0.1:5500/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 控制台</span></span><br><span class="line">&#123;name: <span class="string">&quot;Tom&quot;</span>, age: <span class="string">&quot;18&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上都验证了script标签的跨域能力，而JSONP就是根据script标签的跨域能力实现的。</p>
-<h4><span id="jsonp的使用">JSONP的使用</span></h4><p>在服务端响应一个函数调用的字符串</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  response.writeHead(<span class="number">200</span>, &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;text/plain&#x27;</span>&#125;);</span><br><span class="line">  <span class="comment">// response.end(&#x27;Hello World&#x27;);</span></span><br><span class="line">  <span class="keyword">if</span> (request.url === <span class="string">&#x27;/jsonp-server&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">      <span class="attr">age</span>: <span class="string">&#x27;18&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> str = <span class="built_in">JSON</span>.stringify(data);</span><br><span class="line">    <span class="comment">// 返回一个函数调用的字符串</span></span><br><span class="line">    response.end(<span class="string">`handleData(<span class="subst">$&#123;str&#125;</span>)`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Server running at http://127.0.0.1:8081/&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>在网页提前声明这个函数</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;content&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">handleData</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> content = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;content&#x27;</span>);</span></span><br><span class="line"><span class="javascript">      content.innerHTML = data.name;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://127.0.0.1:8081/jsonp-server&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2><span id="其它发送ajax请求的">其它发送Ajax请求的</span></h2><blockquote>
+<h2><span id="commonjs">CommonJS</span></h2><h4><span id="说明">说明</span></h4><blockquote>
 <ul>
-<li>jQuery发送Ajax请求</li>
-<li>axios发送Ajax请求</li>
+<li>每个文件当作一个模块</li>
 </ul>
 </blockquote>
-<h2><span id="cors">CORS</span></h2><h4><span id="cors是什么">CORS是什么？</span></h4><p>CORS(Cross-Origin-Resource-Sharing)，跨域资源共享，CORS是官方的跨域解决方案，其特点是不需要再客户端做任何特殊操作，完全在服务器中进行处理，支持get和post请求，跨域资源共享标准新增了一组HTTP首部字段，允许服务器声明哪些源站通过浏览器有权限访问哪些资源。</p>
-<h4><span id="cors是如何工作的">CORS是如何工作的？</span></h4><p>CORES通过设置一个响应头告诉浏览器，该请求允许跨域，服务器收到该响应后，就会对响应放行。</p>
-<h4><span id="cors的使用">CORS的使用</span></h4><p>在服务端写入头信息</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>: <span class="string">&#x27;*&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>在服务器端：模块的加载是运行时同步加载的</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>在浏览器端：模块需要提前编译打包处理</li>
+</ul>
+</blockquote>
+<h4><span id="暴露模块">暴露模块</span></h4><blockquote>
+<ul>
+<li>module.exports = value</li>
+<li>exports.xxx = value</li>
+</ul>
+</blockquote>
+<p>暴露的本质是一个<code>exports</code>对象。</p>
+<h4><span id="引入模块">引入模块</span></h4><blockquote>
+<ul>
+<li>require(‘第三方模块名’) &lt;== 引入第三方模块</li>
+<li>require(‘文件路径’) &lt;== 引入自定义模块</li>
+</ul>
+</blockquote>
+<h4><span id="实现">实现</span></h4><p>服务器端实现：Node.js</p>
+<p>浏览器端的实现：Browserify(也称CommonJS的浏览器端打包工具)</p>
+<h2><span id="amd">AMD</span></h2><h4><span id="说明">说明</span></h4><blockquote>
+<ul>
+<li>Asynchronous Module Definition(异步模块定义)</li>
+<li>专门用于浏览器端模块的加载，是异步的</li>
+</ul>
+</blockquote>
+<h4><span id="定义暴露模块">定义暴露模块：</span></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义没有依赖的模块</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> 模块</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个有依赖的模块</span></span><br><span class="line">define([<span class="string">&#x27;module1&#x27;</span>, <span class="string">&#x27;module2&#x27;</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> 模块</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  response.writeHead(<span class="number">200</span>, &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;text/plain&#x27;</span>, <span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>: <span class="string">&#x27;*&#x27;</span>&#125;);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (request.url === <span class="string">&#x27;/person&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">      <span class="attr">age</span>: <span class="string">&#x27;18&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> str = <span class="built_in">JSON</span>.stringify(data);</span><br><span class="line">    <span class="comment">// 返回一个函数调用的字符串</span></span><br><span class="line">    response.end(str);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Server running at http://127.0.0.1:8081/&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4><span id="引入使用模块">引入使用模块：</span></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">&#x27;module1&#x27;</span>, <span class="string">&#x27;module2&#x27;</span>], <span class="function"><span class="keyword">function</span>(<span class="params">m1, m2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 使用模块 m1/m2</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p>发送ajax请求</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btn&quot;</span>&gt;</span>发送请求<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btn&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    btn.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 创建对象</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> x = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 初始化设置</span></span></span><br><span class="line"><span class="javascript">      x.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://127.0.0.1:8081/person&#x27;</span>);</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 发送</span></span></span><br><span class="line"><span class="javascript">      x.send();</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 绑定事件</span></span></span><br><span class="line"><span class="javascript">      x.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (x.readyState === <span class="number">4</span>) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">if</span> (x.status &gt;=<span class="number">200</span> &amp;&amp; x.status &lt;<span class="number">300</span>) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 输出响应体</span></span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(x.response);</span></span><br><span class="line"><span class="javascript">          &#125;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4><span id="实现">实现</span></h4><blockquote>
+<ul>
+<li>Require.js</li>
+</ul>
+</blockquote>
+<h4><span id="例子">例子</span></h4><p>目录结构</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">|-js</span><br><span class="line">  |-libs</span><br><span class="line">    |-require.js</span><br><span class="line">  |-modules</span><br><span class="line">    |-alerter.js</span><br><span class="line">    |-dataService.js</span><br><span class="line">  |-main.js</span><br><span class="line">|-index.html</span><br></pre></td></tr></table></figure>
+
+<p><code>dataService.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个没有依赖的模块</span></span><br><span class="line">define(</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> name = <span class="string">&#x27;dataService.js&#x27;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 暴露模块的getName方法</span></span><br><span class="line">    <span class="keyword">return</span> &#123; getName &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p><code>alerter.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个有依赖的模块</span></span><br><span class="line">define([</span><br><span class="line">  <span class="string">&#x27;dataService&#x27;</span></span><br><span class="line">], <span class="function"><span class="keyword">function</span>(<span class="params">dataService</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> msg = <span class="string">&#x27;alert.js&#x27;</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">showMsg</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(msg, dataService.getName())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 暴露模块</span></span><br><span class="line">  <span class="keyword">return</span> &#123; showMsg &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>main.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  requirejs.config(&#123;</span><br><span class="line">    <span class="attr">baseUrl</span>: <span class="string">&#x27;js/&#x27;</span>, <span class="comment">// 配置基本路径</span></span><br><span class="line">    <span class="attr">paths</span>: &#123; <span class="comment">//配置路径</span></span><br><span class="line">      <span class="attr">dataService</span>: <span class="string">&#x27;./modules/dataService&#x27;</span>,</span><br><span class="line">      <span class="attr">alerter</span>: <span class="string">&#x27;./modules/alerter&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">    </span><br><span class="line">  requirejs([<span class="string">&#x27;alerter&#x27;</span>], <span class="function"><span class="keyword">function</span> (<span class="params">alerter</span>) </span>&#123;</span><br><span class="line">    alerter.showMsg();</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p><code>index.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">data-main</span>=<span class="string">&quot;js/main.js&quot;</span> <span class="attr">src</span>=<span class="string">&quot;js/libs/require.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="cmd">CMD</span></h2><h4><span id="说明">说明</span></h4><blockquote>
+<ul>
+<li>专门用于浏览器端，模块的加载是异步的</li>
+<li>模块在使用时才会加载执行</li>
+</ul>
+</blockquote>
+<h4><span id="定义暴露模块">定义暴露模块</span></h4><p>定义没有依赖的模块</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="built_in">module</span></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">exports</span>.xxx = value;</span><br><span class="line">    <span class="built_in">module</span>.exports = value;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>定义有依赖的模块</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="built_in">module</span></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 引入依赖模块（同步）</span></span><br><span class="line">    <span class="keyword">var</span> module2 = <span class="built_in">require</span>(<span class="string">&#x27;./module2&#x27;</span>)</span><br><span class="line">    <span class="comment">// 引入依赖模块（异步）</span></span><br><span class="line">    <span class="keyword">var</span> module3 = <span class="built_in">require</span>.async(<span class="string">&#x27;./module3&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">m3</span>) </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 暴露模块</span></span><br><span class="line">    <span class="built_in">exports</span>.xxx = value;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4><span id="引入使用模块">引入使用模块</span></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> m1 = <span class="built_in">require</span>(<span class="string">&#x27;./module1&#x27;</span>);</span><br><span class="line">    <span class="keyword">var</span> m2 = <span class="built_in">require</span>(<span class="string">&#x27;./module2&#x27;</span>)</span><br><span class="line">    m1.show()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4><span id="实现">实现</span></h4><blockquote>
+<ul>
+<li>Sea.js</li>
+</ul>
+</blockquote>
+<h4><span id="例子">例子</span></h4><p>目录结构</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">|-js</span><br><span class="line">  |-libs</span><br><span class="line">    |-sea.js</span><br><span class="line">  |-modules</span><br><span class="line">    |-main.js</span><br><span class="line">    |-module1.js</span><br><span class="line">    |-module2.js</span><br><span class="line">    |-module3.js</span><br><span class="line">    |-module4.js</span><br><span class="line">|-index.html</span><br></pre></td></tr></table></figure>
+
+<p><code>module1.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义没有依赖的模块</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="built_in">module</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> msg = <span class="string">&#x27;module1&#x27;</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> msg;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 暴露模块</span></span><br><span class="line">  <span class="built_in">module</span>.exports = &#123; foo &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>module2.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="built_in">module</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> msg = <span class="string">&#x27;module2&#x27;</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(msg)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 暴露模块</span></span><br><span class="line">  <span class="built_in">module</span>.exports = bar;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>module3.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="built_in">module</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> data = <span class="string">&#x27;module3&#x27;</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 暴露</span></span><br><span class="line">  <span class="built_in">exports</span>.module3 = &#123; fun &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>modules4.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="built_in">module</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> msg = <span class="string">&#x27;module4&#x27;</span>;</span><br><span class="line">  <span class="comment">// 同步引入</span></span><br><span class="line">  <span class="keyword">let</span> module2 = <span class="built_in">require</span>(<span class="string">&#x27;./module2&#x27;</span>);</span><br><span class="line">  module2();</span><br><span class="line">  <span class="comment">// 异步引入</span></span><br><span class="line">  <span class="built_in">require</span>.async(<span class="string">&#x27;./module3&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">module3</span>) </span>&#123;</span><br><span class="line">    module3.module3.fun();</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">fun4</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(msg)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 暴露</span></span><br><span class="line">  <span class="built_in">exports</span>.fun4 = fun4</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>文件入口<code>main.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">require</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> module1 = <span class="built_in">require</span>(<span class="string">&#x27;./module1&#x27;</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(module1.foo());</span><br><span class="line">  <span class="keyword">let</span> module4 = <span class="built_in">require</span>(<span class="string">&#x27;./module4&#x27;</span>);</span><br><span class="line">  module4.fun4();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;js/libs/sea.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    seajs.use(<span class="string">&#x27;./js/modules/main.js&#x27;</span>)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modile1</span><br><span class="line">module2</span><br><span class="line">module4</span><br><span class="line">module3</span><br></pre></td></tr></table></figure>
+
+<h2><span id="es6">ES6</span></h2><h4><span id="说明">说明</span></h4><blockquote>
+<ul>
+<li>模块需要编译打包处理</li>
+</ul>
+</blockquote>
+<h4><span id="基本语法">基本语法</span></h4><p>导出模块：expot</p>
+<p>引入模块：import</p>
+<h4><span id="实现">实现</span></h4><blockquote>
+<ul>
+<li>使用Babel将es6转换为es5代码</li>
+<li>使用Browserify编译打包js</li>
+</ul>
+</blockquote>
+<h4><span id="babel-browserify例子">Babel browserify例子</span></h4><p><code>module1.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分别暴露</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;module1 foo()&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;module1 bar()&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br></pre></td></tr></table></figure>
+
+<p><code>module2.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 统一暴露</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;module2 fun1()&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun2</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;module2 fun2()&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; fun1, fun2 &#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>module3.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认暴露</span></span><br><span class="line"><span class="comment">// 暴露的是什么数据，接收到的就是什么数据</span></span><br><span class="line"><span class="comment">// 默认暴露只能写一次</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;module3 foo()&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;module3 bar()&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  foo,</span><br><span class="line">  bar</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>入口文件main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入其它模块</span></span><br><span class="line"><span class="keyword">import</span> &#123; foo, bar, arr &#125; <span class="keyword">from</span> <span class="string">&#x27;./module1&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; fun1, fun2 &#125; <span class="keyword">from</span> <span class="string">&#x27;./module2&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> m3 <span class="keyword">from</span> <span class="string">&#x27;./module3&#x27;</span>;</span><br><span class="line"></span><br><span class="line">foo();</span><br><span class="line">bar();</span><br><span class="line"><span class="built_in">console</span>.log(arr)</span><br><span class="line">fun1();</span><br><span class="line">fun2();</span><br><span class="line">m3.foo();</span><br><span class="line">m3.bar();</span><br></pre></td></tr></table></figure>
+
+<p>打包编译前准备</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-cli browserify -g</span><br><span class="line">npm install babel-preset-es2015 --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>定义.babelrc文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;presets&quot;</span>: [<span class="string">&quot;es2015&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译：</p>
+<blockquote>
+<ul>
+<li>使用Babel将ES6转换为ES5：babel js/src -d js/build</li>
+<li>使用Browserify编译js：browserify js/build/main.js -o js/dist/bandle.js</li>
+</ul>
+</blockquote>
+<p>引入页面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;./js//dist/bandle.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
       
 
@@ -289,7 +367,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Ajax</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">模块化</a>
         		</li>
       		
 		</ul>
@@ -301,7 +379,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Ajax//" class="article-tag-list-link color5">Ajax</a>
+        			<a href="/categories/js//" class="article-tag-list-link color3">js</a>
         		</li>
       		
 		</ul>
@@ -310,7 +388,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/07/26/Ajax%E8%AF%B7%E6%B1%82/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/07/27/js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%A7%84%E8%8C%83/">展开全文 >></a>
         </p>
       
 
@@ -342,7 +420,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
     </nav>
   
 
@@ -586,6 +664,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Ajax</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">模块化</a>
               </li>
             
             <div class="clearfix"></div>

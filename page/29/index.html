@@ -156,42 +156,48 @@
             
 
   
-    <article id="post-将伪数组转换成真数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-defineProperty" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/06/19/%E5%B0%86%E4%BC%AA%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E7%9C%9F%E6%95%B0%E7%BB%84/">将伪数组转换成真数组</a>
+      <a class="article-title" href="/2021/06/19/defineProperty/">defineProperty</a>
     </h1>
   
 
         
-        <a href="/2021/06/19/%E5%B0%86%E4%BC%AA%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E7%9C%9F%E6%95%B0%E7%BB%84/" class="archive-article-date">
-  	<time datetime="2021-06-19T05:54:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
+        <a href="/2021/06/19/defineProperty/" class="archive-article-date">
+  	<time datetime="2021-06-19T07:48:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2><span id="将具有length属性的对象转换成数组">将具有length属性的对象转换成数组</span></h2><p>例如：html页面</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        <h2><span id="给对象添加属性">给对象添加属性</span></h2><p><code>Object.defineProperty()</code> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。</p>
+<h3><span id="参数">参数</span></h3><ul>
+<li><p><code>obj</code></p>
+<p>要定义属性的对象。</p>
+</li>
+<li><p><code>prop</code></p>
+<p>要定义或修改的属性的名称或<code> symbol</code>。</p>
+</li>
+<li><p><code>descriptor</code></p>
+<p>要定义或修改的属性描述符。</p>
+</li>
+</ul>
+<h3><span id="返回值">返回值</span></h3><p>被传递给函数的对象。</p>
+<h3><span id="描述">描述</span></h3><p><code>configurable</code>是否可以重新定义 默认值：false</p>
+<p><code>enumerable</code>是否可以枚举  默认值：false</p>
+<p><code>value</code>初始值  默认值：undefined</p>
+<p><code>writable</code>是否可以修改属性值  默认值：false</p>
+<p><code>get</code>属性的 <code>getter </code>函数  默认值：undefined</p>
+<p><code>set</code>属性的 s<code>etter </code>函数  默认值：undefined</p>
+<h3><span id="示例">示例</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;age&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;description&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">false</span>,</span><br><span class="line">  get () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name + <span class="string">&#x27;-&#x27;</span> + <span class="built_in">this</span>.age</span><br><span class="line">  &#125;,</span><br><span class="line">  set (value) &#123;</span><br><span class="line">    <span class="keyword">const</span> des = value.split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.name = des[<span class="number">0</span>]</span><br><span class="line">    <span class="built_in">this</span>.age = des[<span class="number">1</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 枚举属性名</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj)) <span class="comment">// [&quot;name&quot;, &quot;age&quot;]</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">// obj Tom 20 Tom-20</span></span><br><span class="line">obj.description = <span class="string">&#x27;Killy-21&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description)<span class="comment">// obj Killy 21 Killy-21</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">&#x27;name&#x27;</span>,&#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;damu&#x27;</span>,</span><br><span class="line">  <span class="attr">writable</span>: <span class="literal">true</span>,   <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,  <span class="comment">//不能重新定义</span></span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">true</span> <span class="comment">//不能重新定义</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;obj&#x27;</span>,obj.name,obj.age,obj.description) <span class="comment">//obj Killy 21 Killy-21</span></span><br></pre></td></tr></table></figure>
 
-<p>js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> lis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;li&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = <span class="built_in">Array</span>.prototype.slice.call(lis,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = <span class="built_in">Array</span>.prototype.slice.call(lis)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = [].slice.call(lis,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lis2 = [].slice.call(lis)</span><br></pre></td></tr></table></figure>
-
-<p>console</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(3) [li, li, li]</span><br><span class="line">0: li</span><br><span class="line">1: li</span><br><span class="line">2: li</span><br><span class="line">length: 3__proto__: Array(0) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
 
       
@@ -212,7 +218,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数组</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">definedProperty</a>
         		</li>
       		
 		</ul>
@@ -233,7 +239,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/06/19/%E5%B0%86%E4%BC%AA%E6%95%B0%E7%BB%84%E8%BD%AC%E6%8D%A2%E6%88%90%E7%9C%9F%E6%95%B0%E7%BB%84/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/06/19/defineProperty/">展开全文 >></a>
         </p>
       
 
@@ -265,7 +271,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/28/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/30/">下一页</a>
+      <a class="extend prev" rel="prev" href="/page/28/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/30/">下一页</a>
     </nav>
   
 
@@ -509,6 +515,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Ajax</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">模块化</a>
               </li>
             
             <div class="clearfix"></div>
